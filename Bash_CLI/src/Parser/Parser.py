@@ -1,8 +1,8 @@
 class Parser(object):
     def __init__(self):
-        #TODO
+        # TODO
         pass
 
     def parse_commands(self, list_tokens):
-        #TODO
+        # TODO
         return [[""]]
