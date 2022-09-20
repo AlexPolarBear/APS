@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from src.Command.Command import Command
 
@@ -8,5 +8,5 @@ class ExitCommand(Command):
         super().__init__(name, args)
         self.name = 'exit'
 
-    def run(self, stdin: str) -> str:
+    def run(self, stdin: str) -> Tuple[str, str, int]:
         raise SystemExit
