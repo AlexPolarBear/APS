@@ -14,24 +14,24 @@ class Controller(object):
     def run(self):
         # TODO
         while True:
-            ui = UI()
+            ui = UI(self)
             input_string = ui.read_input()
 
-            lexer = Lexer()
+            lexer = Lexer(self)
             tokens = lexer.parse_to_tokens(input_string)
 
-            substitutor = Substitutor()
+            substitutor = Substitutor(self)
             input_after_substitution = substitutor.resolve_env_var(tokens)
 
             final_tokens = lexer.parse_to_tokens(input_after_substitution)
 
-            parser = Parser()
+            parser = Parser(self)
             str_commands = parser.parse_commands(final_tokens)
 
-            command_factory = CommandFactory()
+            command_factory = CommandFactory(self)
             commands = command_factory.generate_commands(str_commands)
 
-            interpreter = Interpreter()
+            interpreter = Interpreter(self)
             result = interpreter.run_commands(commands)
 
             ui.print_result(result)
