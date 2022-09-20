@@ -1,8 +1,8 @@
 class CommandFactory(object):
     def __init__(self):
-        #TODO
+        # TODO
         pass
 
     def generate_commands(self, list_commands):
-        #TODO
+        # TODO
         return []

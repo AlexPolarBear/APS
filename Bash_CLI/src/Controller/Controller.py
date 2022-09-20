@@ -1,17 +1,18 @@
-from src.UI.UI import UI
-from src.Lexer.Lexer import Lexer
-from src.Substitutor.Substitutor import Substitutor
-from src.Parser.Parser import Parser
 from src.CommandFactory.CommandFactory import CommandFactory
 from src.Interpreter.Interpreter import Interpreter
+from src.Lexer.Lexer import Lexer
+from src.Parser.Parser import Parser
+from src.Substitutor.Substitutor import Substitutor
+from src.UI.UI import UI
+
 
 class Controller(object):
     def __init__(self):
-        #TODO
+        # TODO
         pass
-    
+
     def run(self):
-        #TODO
+        # TODO
         while True:
             ui = UI()
             input_string = ui.read_input()
