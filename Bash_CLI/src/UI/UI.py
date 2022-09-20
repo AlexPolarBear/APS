@@ -1,12 +1,12 @@
+from src.Controller.Controller import Controller
+
+
 class UI(object):
-    def __init__(self):
-        # TODO
-        pass
+    def __init__(self, controller: Controller):
+        self.controller = controller
 
     def read_input(self):
-        # TODO
-        return ""
+        return input('>>> ')
 
-    def print_result(self, result):
-        # TODO
-        print('Aboba')
+    def print_result(self, result: str):
+        print(result)
