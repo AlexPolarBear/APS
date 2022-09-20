@@ -1,8 +1,8 @@
 class Interpreter(object):
     def __init__(self):
-        #TODO
+        # TODO
         pass
 
     def run_commands(self, list_commands):
-        #TODO
+        # TODO
         return ""
