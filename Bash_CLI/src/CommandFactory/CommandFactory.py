@@ -1,8 +1,15 @@
-class CommandFactory(object):
-    def __init__(self):
-        # TODO
-        pass
+from typing import List
 
-    def generate_commands(self, list_commands):
-        # TODO
+from src.Command.Command import Command
+from src.Controller.Controller import Controller
+
+
+class CommandFactory(object):
+    def __init__(self, controller: Controller):
+        self.controller = controller
+
+    def generate_commands(self, list_commands: List[List[str]]) -> List[Command]:
+        for command in list_commands:
+            # TODO
+            pass
         return []
