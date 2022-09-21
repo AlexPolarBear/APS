@@ -8,8 +8,7 @@ from src.UI.UI import UI
 
 class Controller(object):
     def __init__(self):
-        # TODO
-        pass
+        self.env_vars = {}
 
     def run(self):
         # TODO

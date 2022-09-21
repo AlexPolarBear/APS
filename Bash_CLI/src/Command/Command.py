@@ -1,7 +1,9 @@
-from typing import List, Optional, Tuple
 import subprocess
-from io import StringIO
 from dataclasses import dataclass
+from io import StringIO
+from typing import List, Optional, Tuple
+
+from src.Controller.Controller import Controller
 
 
 @dataclass
@@ -15,7 +17,7 @@ class Command(object):
         if self.args is None:
             self.args = []
 
-    def run(self, stdin: str) -> Tuple[str, str, int]:
+    def run(self, stdin: str, controller: Controller) -> Tuple[str, str, int]:
         input_stream = StringIO(stdin)
         output_stream = StringIO()
         err_stream = StringIO()
