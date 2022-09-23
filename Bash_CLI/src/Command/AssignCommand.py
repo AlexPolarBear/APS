@@ -1,7 +1,7 @@
 from typing import Tuple
 
 from src.Command.Command import Command
-from src.Controller.Controller import Controller
+import src.Controller.Controller as Controller
 
 
 class AssignCommand(Command):
