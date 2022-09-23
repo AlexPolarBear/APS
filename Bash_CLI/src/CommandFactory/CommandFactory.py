@@ -8,7 +8,7 @@ from src.Command.ExitCommand import ExitCommand
 from src.Command.PwdCommand import PwdCommand
 from src.Command.UnknownCommand import UnknownCommand
 from src.Command.WcCommand import WcCommand
-from src.Controller.Controller import Controller
+import src.Controller.Controller as Controller
 
 
 class CommandFactory(object):
