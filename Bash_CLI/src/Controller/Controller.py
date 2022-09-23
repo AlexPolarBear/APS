@@ -11,26 +11,41 @@ class Controller(object):
         self.env_vars = {}
 
     def run(self):
-        # TODO
+        __traceback_hide__ = True
+        ui = UI(self)
+
         while True:
-            ui = UI(self)
-            input_string = ui.read_input()
+            with ExceptionHandler(ui):
+                input_string = ui.read_input()
 
-            lexer = Lexer(self)
-            tokens = lexer.parse_to_tokens(input_string)
+                lexer = Lexer(self)
+                tokens = lexer.parse_to_tokens(input_string)
 
-            substitutor = Substitutor(self)
-            input_after_substitution = substitutor.resolve_env_var(tokens)
+                substitutor = Substitutor(self)
+                input_after_substitution = substitutor.resolve_env_var(tokens)
 
-            final_tokens = lexer.parse_to_tokens(input_after_substitution)
+                final_tokens = lexer.parse_to_tokens(input_after_substitution)
 
-            parser = Parser(self)
-            str_commands = parser.parse_commands(final_tokens)
+                parser = Parser(self)
+                str_commands = parser.parse_commands(final_tokens)
 
-            command_factory = CommandFactory(self)
-            commands = command_factory.generate_commands(str_commands)
+                command_factory = CommandFactory(self)
+                commands = command_factory.generate_commands(str_commands)
 
-            interpreter = Interpreter(self)
-            result = interpreter.run_commands(commands)
+                interpreter = Interpreter(self)
+                result = interpreter.run_commands(commands)
 
-            ui.print_result(result)
+                ui.print_result(result)
+
+
+class ExceptionHandler(object):
+    def __init__(self, ui: UI):
+        self.ui = ui
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is not None:
+            self.ui.print_result(exc_val)
+            return True
