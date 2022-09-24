@@ -1,4 +1,5 @@
 from src.CommandFactory.CommandFactory import CommandFactory
+from src.Controller.ExceptionHandler.ExceptionHandler import ExceptionHandler
 from src.Interpreter.Interpreter import Interpreter
 from src.Lexer.Lexer import Lexer
 from src.Parser.Parser import Parser
@@ -36,16 +37,3 @@ class Controller(object):
                 result = interpreter.run_commands(commands)
 
                 ui.print_result(result)
-
-
-class ExceptionHandler(object):
-    def __init__(self, ui: UI):
-        self.ui = ui
-
-    def __enter__(self):
-        pass
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type is not None:
-            self.ui.print_result(exc_val)
-            return True

@@ -17,7 +17,7 @@ class Command(object):
         if self.args is None:
             self.args = []
 
-    def run(self, stdin: str, controller: Controller) -> Tuple[str, str, int]:
+    def run(self, stdin: str, controller: Controller.Controller) -> Tuple[str, str, int]:
         input_stream = StringIO(stdin)
         output_stream = StringIO()
         err_stream = StringIO()

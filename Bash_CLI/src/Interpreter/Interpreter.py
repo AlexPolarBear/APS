@@ -6,7 +6,7 @@ import src.Controller.Controller as Controller
 
 
 class Interpreter(object):
-    def __init__(self, controller: Controller):
+    def __init__(self, controller: Controller.Controller):
         self.controller = controller
 
     def run_commands(self, list_commands: List[Command]) -> str:
