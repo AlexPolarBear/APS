@@ -12,7 +12,7 @@ import src.Controller.Controller as Controller
 
 
 class CommandFactory(object):
-    def __init__(self, controller: Controller):
+    def __init__(self, controller: Controller.Controller):
         self.controller = controller
 
     def generate_commands(self, str_commands: List[List[str]]) -> List[Command]:
