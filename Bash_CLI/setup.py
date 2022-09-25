@@ -1,4 +1,3 @@
-from importlib.metadata import entry_points
 from setuptools import setup, find_packages
 
 setup(
@@ -7,7 +6,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'bash_cli = src.main:main'
+            'bash_cli = src.main:main',
         ]
     },
 )

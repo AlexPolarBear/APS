@@ -1,5 +1,5 @@
-from src.Command.Command import Command
+import src.Command.Command as Command
 
 
-class UnknownCommand(Command):
+class UnknownCommand(Command.Command):
     pass
