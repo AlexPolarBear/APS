@@ -8,10 +8,18 @@ import src.UI.UI as UI
 
 
 class Controller(object):
+    """Class that contains the execution context and controls the flow of the program.
+
+    Attributes
+    ----------
+    env_vars : dict
+        Dictionary that contains the environment variables.
+    """
     def __init__(self):
         self.env_vars = {}
 
     def run(self):
+        """Run the CLI loop."""
         __traceback_hide__ = True
         ui = UI(self)
 

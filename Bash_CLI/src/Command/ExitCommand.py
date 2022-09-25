@@ -4,6 +4,9 @@ import src.Command.Command as Command
 import src.Controller.Controller as Controller
 
 
-class ExitCommand(Command.Command):
-    def run(self, stdin: str, controller: Controller) -> Tuple[str, str, int]:
+class ExitCommand(Command):
+    """Class representing the exit command.
+    After running this command, the program will exit.
+    """
+    def run(self, stdin: str, controller: Controller.Controller) -> Tuple[str, str, int]:
         raise SystemExit

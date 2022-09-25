@@ -12,10 +12,30 @@ import src.Controller.Controller as Controller
 
 
 class CommandFactory(object):
-    def __init__(self, controller: Controller):
+    """Class for generating commands from their tokenized representations.
+
+    Attributes
+    ----------
+    controller : Controller.Controller
+        The controller object which contains current execution context.
+    """
+    def __init__(self, controller: Controller.Controller):
         self.controller = controller
 
-    def generate_commands(self, str_commands: List[List[str]]) -> List[Command.Command]:
+    def generate_commands(self, str_commands: List[List[str]]) -> List[Command]:
+        """Generate a list of commands from a list of tokenized commands.
+
+        Parameters
+        ----------
+        str_commands : List[List[str]]
+            A list of tokenized commands. Each tokenized command is a list of strings where one string (usually first)
+            is the name of the command and the rest are the arguments.
+
+        Returns
+        -------
+        List[Command]
+            A list of commands.
+        """
         commands = []
 
         for command in str_commands:
