@@ -1,10 +1,10 @@
-from src.CommandFactory.CommandFactory import CommandFactory
-from src.Controller.ExceptionHandler.ExceptionHandler import ExceptionHandler
-from src.Interpreter.Interpreter import Interpreter
-from src.Lexer.Lexer import Lexer
-from src.Parser.Parser import Parser
-from src.Substitutor.Substitutor import Substitutor
-from src.UI.UI import UI
+import src.CommandFactory.CommandFactory as CommandFactory
+import src.Controller.ExceptionHandler.ExceptionHandler as ExceptionHandler
+import src.Interpreter.Interpreter as Interpreter
+import src.Lexer.Lexer as Lexer
+import src.Parser.Parser as Parser
+import src.Substitutor.Substitutor as Substitutor
+import src.UI.UI as UI
 
 
 class Controller(object):
@@ -16,24 +16,24 @@ class Controller(object):
         ui = UI(self)
 
         while True:
-            with ExceptionHandler(ui):
+            with ExceptionHandler.ExceptionHandler(ui):
                 input_string = ui.read_input()
 
-                lexer = Lexer(self)
+                lexer = Lexer.Lexer(self)
                 tokens = lexer.parse_to_tokens(input_string)
 
-                substitutor = Substitutor(self)
+                substitutor = Substitutor.Substitutor(self)
                 input_after_substitution = substitutor.resolve_env_var(tokens)
 
                 final_tokens = lexer.parse_to_tokens(input_after_substitution)
 
-                parser = Parser(self)
+                parser = Parser.Parser(self)
                 str_commands = parser.parse_commands(final_tokens)
 
-                command_factory = CommandFactory(self)
+                command_factory = CommandFactory.CommandFactory(self)
                 commands = command_factory.generate_commands(str_commands)
 
-                interpreter = Interpreter(self)
+                interpreter = Interpreter.Interpreter(self)
                 result = interpreter.run_commands(commands)
 
                 ui.print_result(result)
