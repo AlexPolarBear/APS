@@ -31,7 +31,7 @@ class Controller(object):
                 tokens = lexer.parse_to_tokens(input_string)
 
                 substitutor = Substitutor(self)
-                input_after_substitution = substitutor.resolve_env_var(tokens)
+                input_after_substitution = substitutor.resolve_env_vars(tokens)
 
                 final_tokens = lexer.parse_to_tokens(input_after_substitution)
 
