@@ -1,7 +1,11 @@
-from src.UI.UI import UI
+from src.UI import UI
 
 
 class ExceptionHandler(object):
+    """Context manager for handling exceptions.
+    If the exception raises it prints the exception message to the UI
+    and returns True to indicate that the exception was handled.
+    """
     def __init__(self, ui: UI):
         self.ui = ui
 
