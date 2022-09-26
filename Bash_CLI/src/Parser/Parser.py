@@ -6,5 +6,4 @@ class Parser(object):
         self.controller = controller
 
     def parse_commands(self, list_tokens):
-        # TODO
-        return [[""]]
+        return [list_tokens]

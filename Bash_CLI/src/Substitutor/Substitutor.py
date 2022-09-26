@@ -6,5 +6,4 @@ class Substitutor(object):
         self.controller = controller
 
     def resolve_env_var(self, list_tokens):
-        # TODO
-        return ""
+        return ' '.join(list_tokens)

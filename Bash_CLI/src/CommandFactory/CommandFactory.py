@@ -43,7 +43,7 @@ class CommandFactory(object):
                 commands.append(PwdCommand(args=command[1:]))
             elif command[0] == 'wc':
                 commands.append(WcCommand(args=command[1:]))
-            elif command[1] == '=':
+            elif len(commands) > 1 and command[1] == '=':
                 commands.append(AssignCommand(args=[command[0], command[2]]))
             else:
                 commands.append(UnknownCommand(name=command[0], args=command[1:]))

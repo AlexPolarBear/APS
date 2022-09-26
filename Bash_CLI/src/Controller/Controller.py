@@ -1,12 +1,3 @@
-from src.CommandFactory import CommandFactory
-from src.Controller import ExceptionHandler
-from src.Interpreter import Interpreter
-from src.Lexer import Lexer
-from src.Parser import Parser
-from src.Substitutor import Substitutor
-from src.UI import UI
-
-
 class Controller(object):
     """Class that contains the execution context and controls the flow of the program.
 
@@ -15,11 +6,20 @@ class Controller(object):
     env_vars : dict
         Dictionary that contains the environment variables.
     """
+
     def __init__(self):
         self.env_vars = {}
 
     def run(self):
         """Run the CLI loop."""
+        from src.CommandFactory import CommandFactory
+        from src.Controller import ExceptionHandler
+        from src.Interpreter import Interpreter
+        from src.Lexer import Lexer
+        from src.Parser import Parser
+        from src.Substitutor import Substitutor
+        from src.UI import UI
+
         __traceback_hide__ = True
         ui = UI(self)
 

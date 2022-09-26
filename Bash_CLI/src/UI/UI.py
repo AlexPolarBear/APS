@@ -9,4 +9,4 @@ class UI(object):
         return input('>>> ')
 
     def print_result(self, result: str):
-        print(result)
+        print(result, end='')

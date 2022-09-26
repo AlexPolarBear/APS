@@ -40,3 +40,28 @@ def test_generate_commands_1():
 
     assert commands[5].name == 'aboba'
     assert commands[5].args == ['a1']
+
+
+def test_generate_commands_2():
+    controller = Controller()
+    command_factory = CommandFactory(controller)
+
+    str_commands = [
+        ['aboba'],
+    ]
+    commands = command_factory.generate_commands(str_commands)
+
+    assert len(commands) == 1
+    assert isinstance(commands[0], UnknownCommand)
+    assert commands[0].name == 'aboba'
+    assert commands[0].args == []
+
+
+def test_generate_commands_3():
+    controller = Controller()
+    command_factory = CommandFactory(controller)
+
+    str_commands = []
+    commands = command_factory.generate_commands(str_commands)
+
+    assert commands == []

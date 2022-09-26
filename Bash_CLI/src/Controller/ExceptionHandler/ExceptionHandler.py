@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 from src.UI import UI
 
 
@@ -13,6 +16,10 @@ class ExceptionHandler(object):
         pass
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type in (KeyboardInterrupt, SystemExit):
+            sys.exit(0)
+
         if exc_type is not None:
             self.ui.print_result(exc_val)
+            traceback.print_exc(exc_val)
             return True
