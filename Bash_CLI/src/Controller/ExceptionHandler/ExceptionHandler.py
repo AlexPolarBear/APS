@@ -21,5 +21,4 @@ class ExceptionHandler(object):
 
         if exc_type is not None:
             self.ui.print_result(exc_val)
-            traceback.print_exc(exc_val)
             return True
