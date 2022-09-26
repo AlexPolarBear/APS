@@ -42,16 +42,12 @@ class Command(object):
         Tuple[str, str, int]
             The output string, error string and return code.
         """
-        input_stream = StringIO(stdin)
-        output_stream = StringIO()
-        err_stream = StringIO()
-
-        res = subprocess.call(
+        res = subprocess.run(
             self.name + ' ' + ' '.join(self.args),
+            input=stdin,
             shell=True,
-            stdin=input_stream,
-            stdout=output_stream,
-            stderr=err_stream,
+            text=True,
+            capture_output=True,
         )
 
-        return output_stream.getvalue(), err_stream.getvalue(), res
+        return res.stdout, res.stderr, res.returncode
