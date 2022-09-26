@@ -1,3 +1,5 @@
+import platform
+
 from src.Command import WcCommand, CatCommand, EchoCommand
 from src.Interpreter import Interpreter
 from src.Controller import Controller
@@ -32,4 +34,7 @@ def test_run_commands_3():
     ]
     output = interpreter.run_commands(commands)
 
-    assert output == '      1       3      15\n'
+    if platform.system() == 'Windows':
+        assert output == '      1       3      15\n'
+    else:
+        assert output == '      1       3      14\n'

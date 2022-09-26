@@ -1,3 +1,5 @@
+import platform
+
 from src.Controller import Controller
 from src.Command import WcCommand
 
@@ -10,4 +12,7 @@ def test_wc_command_run_1():
 
     stdout, _, _ = command.run(input_text, controller)
 
-    assert stdout == '      2       6      30\n'
+    if platform.system() == 'Windows':
+        assert stdout == '      2       6      30\n'
+    else:
+        assert stdout == '      2       6      28\n'
