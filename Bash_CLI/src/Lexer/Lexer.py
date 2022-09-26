@@ -1,11 +1,11 @@
 from typing import List
 from itertools import chain
 
-import src.Controller.Controller as Controller
+from src.Controller import Controller
 
 
 class Lexer(object):
-    def __init__(self, controller: Controller.Controller):
+    def __init__(self, controller: Controller):
         self.controller = controller
     
     def _process_equation_and_space(self, arg_str: str) -> List[str]:

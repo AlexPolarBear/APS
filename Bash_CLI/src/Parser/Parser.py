@@ -1,4 +1,4 @@
-import src.Controller.Controller as Controller
+from src.Controller import Controller
 
 
 class Parser(object):
