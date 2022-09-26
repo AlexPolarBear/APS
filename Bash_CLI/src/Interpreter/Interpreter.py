@@ -33,7 +33,7 @@ class Interpreter(object):
         stdin = ''
 
         for command in list_commands:
-            stdout = command.run(stdin, self.controller)
+            stdout, _, _ = command.run(stdin, self.controller)
             stdin = stdout
 
         return stdin
