@@ -6,7 +6,7 @@ from src.Command import CatCommand
 
 def test_cat_command_run_1():
     controller = Controller()
-    filename = os.path.join(os.getcwd(), 'Bash_CLI', 'test', 'Command', 'test_AssignCommand.py')
+    filename = os.path.join(os.getcwd(), 'test', 'Command', 'test_AssignCommand.py')
 
     assert os.path.isfile(filename)
 
