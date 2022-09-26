@@ -14,5 +14,7 @@ def test_wc_command_run_1():
 
     if platform.system() == 'Windows':
         assert stdout == '      2       6      30\n'
-    else:
+    elif platform.system() == 'Linux':
         assert stdout == '      2       6      28\n'
+    else:
+        assert stdout == '       2       6      28\n'
