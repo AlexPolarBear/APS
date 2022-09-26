@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-import src.Command.Command as Command
+from src.Command import Command
 
 
 class PwdCommand(Command):

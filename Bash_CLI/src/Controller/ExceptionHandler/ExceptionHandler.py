@@ -1,4 +1,4 @@
-from src.UI.UI import UI
+from src.UI import UI
 
 
 class ExceptionHandler(object):

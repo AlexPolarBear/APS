@@ -1,12 +1,12 @@
 from typing import Tuple
 
-import src.Command.Command as Command
-import src.Controller.Controller as Controller
+from src.Command import Command
+from src.Controller import Controller
 
 
 class ExitCommand(Command):
     """Class representing the exit command.
     After running this command, the program will exit.
     """
-    def run(self, stdin: str, controller: Controller.Controller) -> Tuple[str, str, int]:
+    def run(self, stdin: str, controller: Controller) -> Tuple[str, str, int]:
         raise SystemExit

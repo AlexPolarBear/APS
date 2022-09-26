@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from io import StringIO
 from typing import List, Optional, Tuple
 
-import src.Controller.Controller as Controller
+from src.Controller import Controller
 
 
 @dataclass
@@ -27,14 +27,14 @@ class Command(object):
         if self.args is None:
             self.args = []
 
-    def run(self, stdin: str, controller: Controller.Controller) -> Tuple[str, str, int]:
+    def run(self, stdin: str, controller: Controller) -> Tuple[str, str, int]:
         """Run the command in a subshell and return the output string, error string and return code.
 
         Parameters
         ----------
         stdin : str
             The input string for the command.
-        controller : Controller.Controller
+        controller : Controller
             The controller object which contains current execution context.
 
         Returns

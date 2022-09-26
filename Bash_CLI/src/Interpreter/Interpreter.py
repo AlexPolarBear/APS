@@ -1,8 +1,8 @@
 from typing import List
 
-import src.Command.Command as Command
+from src.Command import Command
 
-import src.Controller.Controller as Controller
+from src.Controller import Controller
 
 
 class Interpreter(object):
@@ -13,7 +13,7 @@ class Interpreter(object):
     controller : Controller.Controller
         The controller object which contains current execution context.
     """
-    def __init__(self, controller: Controller.Controller):
+    def __init__(self, controller: Controller):
         self.controller = controller
 
     def run_commands(self, list_commands: List[Command]) -> str:

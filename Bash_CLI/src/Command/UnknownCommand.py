@@ -1,4 +1,4 @@
-import src.Command.Command as Command
+from src.Command import Command
 
 
 class UnknownCommand(Command):
