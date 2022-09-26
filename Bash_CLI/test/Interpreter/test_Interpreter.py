@@ -36,5 +36,8 @@ def test_run_commands_3():
 
     if platform.system() == 'Windows':
         assert output == '      1       3      15\n'
-    else:
+    elif platform.system() == 'Linux':
         assert output == '      1       3      14\n'
+    else:
+        assert output == '       1       3      14\n'
+
