@@ -5,10 +5,14 @@ from src.Controller import Controller
 
 
 class Lexer(object):
+    """Class for creation an array of tokens from raw command line."""
+
     def __init__(self, controller: Controller):
         self.controller = controller
     
     def _process_equation_and_space(self, arg_str: str) -> List[str]:
+        """Split the string for the symbols " " and "="."""
+
         tokens = arg_str.split(' ')
         tokens = list(map(lambda s: s.split('='), tokens))
         for idx, arr in enumerate(tokens):
@@ -23,6 +27,8 @@ class Lexer(object):
         return list(filter(lambda s: len(s) > 0, tokens))
     
     def _process_double_quotation(self, arg_str: str) -> List[str]:
+        """Split the string for the symbol "\"" and process each substring separately."""
+        
         tokens = arg_str.split('"')
         final_tokens = []
         for idx, s in enumerate(tokens):
@@ -36,6 +42,8 @@ class Lexer(object):
         return list(filter(lambda s: len(s) > 0, final_tokens))
 
     def _process_single_quotation(self, arg_str: str) -> List[str]:
+        """Split the string for the symbol "'" and process each substring separately."""
+
         open_single_quotation = False
         open_double_quotation = False
         current_str = ''
@@ -69,7 +77,11 @@ class Lexer(object):
         return list(filter(lambda s: len(s) > 0, tokens))
 
     def _process_pipe(self, arg_str: str) -> List[str]:
+        """Split the string for the symbol '|' and process each substring separately."""
+
         return self._process_single_quotation(arg_str)
 
     def parse_to_tokens(self, arg_str: str) -> List[str]:
+        """Generate array of tokens from raw command line."""
+
         return self._process_pipe(arg_str)
