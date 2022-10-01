@@ -19,9 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build project
-        working-directory: ./Bash_CLI
-        run: pip3 install .
       - name: Test with pytest
         working-directory: ./Bash_CLI
         run: |
@@ -34,9 +31,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build project
-        working-directory: ./Bash_CLI
-        run: pip3 install .
       - name: Test with pytest
         working-directory: ./Bash_CLI
         run: |
@@ -49,9 +43,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build project
-        working-directory: ./Bash_CLI
-        run: pip3 install .
       - name: Test with pytest
         working-directory: ./Bash_CLI
         run: |
