@@ -4,12 +4,14 @@ on:
   pull_request:
     branches: [
       main,
-      bash_cli
+      bash_cli,
+      bash_cli_2
     ]
   push:
     branches: [
       main,
-      bash_cli
+      bash_cli,
+      bash_cli_2
     ]
 
 jobs:
