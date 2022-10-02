@@ -33,3 +33,19 @@ def test_run_commands_3():
     output = interpreter.run_commands(commands)
 
     assert output == '2  3  14'
+
+
+def test_run_with_error_1():
+    controller = Controller()
+    interpreter = Interpreter(controller)
+
+    commands = [
+        CatCommand(args=['nonexistent_file.txt']),
+    ]
+
+    try:
+        interpreter.run_commands(commands)
+    except RuntimeError as e:
+        assert e.args[0] == 'cat: nonexistent_file.txt: No such file or directory\n'
+    else:
+        raise AssertionError('RuntimeError was not raised')

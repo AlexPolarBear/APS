@@ -35,7 +35,7 @@ class Interpreter(object):
         for command in list_commands:
             stdout, stderr, return_code = command.run(stdin, self.controller)
             if return_code != 0:
-                raise Exception(stderr)
+                raise RuntimeError(stderr)
             stdin = stdout
 
         return stdin
