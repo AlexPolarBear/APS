@@ -26,7 +26,7 @@ jobs:
         working-directory: ./Bash_CLI
         run: |
           pip3 install pytest pytest-cov
-          pytest --cov=./ --cov-report=xml
+          pytest --cov=./src --cov-report=xml
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v3
   
@@ -41,7 +41,7 @@ jobs:
         working-directory: ./Bash_CLI
         run: |
           pip3 install pytest pytest-cov
-          pytest --cov=./ --cov-report=xml
+          pytest --cov=./src --cov-report=xml
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v3
 
@@ -56,6 +56,6 @@ jobs:
         working-directory: ./Bash_CLI
         run: |
           pip3 install pytest pytest-cov
-          pytest --cov=./ --cov-report=xml
+          pytest --cov=./src --cov-report=xml
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v3
