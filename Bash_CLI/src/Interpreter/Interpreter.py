@@ -33,7 +33,9 @@ class Interpreter(object):
         stdin = ''
 
         for command in list_commands:
-            stdout, _, _ = command.run(stdin, self.controller)
+            stdout, stderr, return_code = command.run(stdin, self.controller)
+            if return_code != 0:
+                raise RuntimeError(stderr)
             stdin = stdout
 
         return stdin
