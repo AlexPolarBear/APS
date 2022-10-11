@@ -1,6 +1,7 @@
 from src.Command import WcCommand, CatCommand, EchoCommand
 from src.Interpreter import Interpreter
 from src.Controller import Controller
+from src.Token import Token
 
 
 def test_run_commands_1():
@@ -15,7 +16,7 @@ def test_run_commands_2():
     interpreter = Interpreter(controller)
 
     commands = [
-        EchoCommand(args=['one two three']),
+        EchoCommand(args=[Token('one two three', '', '')]),
     ]
     output = interpreter.run_commands(commands)
 
@@ -27,7 +28,7 @@ def test_run_commands_3():
     interpreter = Interpreter(controller)
 
     commands = [
-        EchoCommand(args=['one two three\n']),
+        EchoCommand(args=[Token('one two three', '\n', '')]),
         WcCommand(),
     ]
     output = interpreter.run_commands(commands)
@@ -40,7 +41,7 @@ def test_run_with_error_1():
     interpreter = Interpreter(controller)
 
     commands = [
-        CatCommand(args=['nonexistent_file.txt']),
+        CatCommand(args=[Token('nonexistent_file.txt', '', '')]),
     ]
 
     try:

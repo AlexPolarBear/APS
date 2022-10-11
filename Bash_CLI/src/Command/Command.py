@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
 from src.Controller import Controller
+from src.Token import Token
 
 
 @dataclass
@@ -13,11 +14,11 @@ class Command(object):
     ----------
     name : str
         The name of the command.
-    args : List[str]
+    args : List[Token]
         The list of arguments for the command.
     """
     name: Optional[str] = None
-    args: Optional[List[str]] = None
+    args: Optional[List[Token]] = None
 
     def __post_init__(self):
         """Check the correctness of the initialisation and fill in default values."""
@@ -41,8 +42,12 @@ class Command(object):
         Tuple[str, str, int]
             The output string, error string and return code.
         """
+        args_str = ''
+        for token in self.args:
+            args_str += str(token)
+        
         res = subprocess.run(
-            self.name + ' ' + ' '.join(self.args),
+            self.name + ' ' + args_str,
             input=stdin,
             shell=True,
             text=True,

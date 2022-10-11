@@ -3,21 +3,22 @@ import os
 
 from src.Command import Command
 from src.Controller import Controller
+from src.Token import Token
 
 
 class WcCommand(Command):
     """Class representing the wc command."""
-    def __init__(self, name: Optional[str] = None, args: Optional[List[str]] = None):
+    def __init__(self, name: Optional[str] = None, args: Optional[List[Token]] = None):
         super().__init__('wc', args)
 
     def run(self, stdin: str, controller: Controller) -> Tuple[str, str, int]:
         """Custom realization of wc command."""
         try:
             if len(self.args) > 0:
-                with open(self.args[0], 'r') as input_file:
+                with open(str(self.args[0]), 'r') as input_file:
                     lines_in_file = 0
                     words_in_file = 0
-                    bytes_in_file = os.path.getsize(self.args[0])
+                    bytes_in_file = os.path.getsize(str(self.args[0]))
                     for line in input_file:
                         lines_in_file += 1
                         words_in_file += len(line.split())
