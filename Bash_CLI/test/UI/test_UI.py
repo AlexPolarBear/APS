@@ -25,4 +25,4 @@ def test_print_result_1(monkeypatch):
 
     ui.print_result('aboba')
 
-    assert stdout.getvalue() == 'aboba'
+    assert stdout.getvalue() == 'aboba\n'
