@@ -1,6 +1,5 @@
 import subprocess
 from dataclasses import dataclass
-from io import StringIO
 from typing import List, Optional, Tuple
 
 from src.Controller import Controller

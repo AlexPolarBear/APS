@@ -15,4 +15,4 @@ class UI(object):
     def print_result(self, result: str):
         """Print the result of processing user's command."""
 
-        print(result, end='')
+        print(result)

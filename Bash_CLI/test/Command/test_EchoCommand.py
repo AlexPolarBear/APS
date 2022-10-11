@@ -11,7 +11,7 @@ def test_echo_command_run_1():
 
     stdout, _, _ = command.run('', controller)
 
-    assert stdout == input_text + '\n'
+    assert stdout == input_text
 
 
 def test_echo_command_run_2():
@@ -23,4 +23,4 @@ def test_echo_command_run_2():
 
     stdout, _, _ = command.run('', controller)
 
-    assert stdout == f'{text1} {text2} {text3}\n'
+    assert stdout == f'{text1} {text2} {text3}'
