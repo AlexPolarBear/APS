@@ -2,6 +2,7 @@ import os
 
 from src.Controller import Controller
 from src.Command import CatCommand
+from src.Token import Token
 
 
 def test_cat_command_run_1():
@@ -10,7 +11,7 @@ def test_cat_command_run_1():
 
     assert os.path.isfile(filename)
 
-    command = CatCommand(args=[filename])
+    command = CatCommand(args=[Token(filename, '', '')])
 
     stdout, _, _ = command.run('', controller)
 

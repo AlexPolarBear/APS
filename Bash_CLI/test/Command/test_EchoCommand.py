@@ -1,5 +1,6 @@
 from src.Controller import Controller
 from src.Command import EchoCommand
+from src.Token import Token
 
 
 def test_echo_command_run_1():
@@ -7,7 +8,7 @@ def test_echo_command_run_1():
 
     input_text = 'Aboba'
 
-    command = EchoCommand(args=[input_text])
+    command = EchoCommand(args=[Token(input_text, '', '')])
 
     stdout, _, _ = command.run('', controller)
 
@@ -19,7 +20,7 @@ def test_echo_command_run_2():
 
     text1, text2, text3 = 'Aboba', 'boba', 'abobo'
 
-    command = EchoCommand(args=[text1, text2, text3])
+    command = EchoCommand(args=[Token(text1, ' ', ''), Token(text2, ' ', ''), Token(text3, '', '')])
 
     stdout, _, _ = command.run('', controller)
 
