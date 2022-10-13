@@ -5,13 +5,15 @@ on:
     branches: [
       main,
       bash_cli,
-      bash_cli_2
+      bash_cli_2,
+      bash_cli_3
     ]
   push:
     branches: [
       main,
       bash_cli,
-      bash_cli_2
+      bash_cli_2,
+      bash_cli_3
     ]
 
 jobs:
