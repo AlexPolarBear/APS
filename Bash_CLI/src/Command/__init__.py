@@ -6,6 +6,7 @@ from .CatCommand import CatCommand
 from .EchoCommand import EchoCommand
 from .PwdCommand import PwdCommand
 from .WcCommand import WcCommand
+from .GrepCommand import GrepCommand
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     'EchoCommand',
     'PwdCommand',
     'WcCommand',
+    'GrepCommand',
 ]

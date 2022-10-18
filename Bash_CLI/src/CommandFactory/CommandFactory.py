@@ -1,7 +1,7 @@
 from typing import List
 
 from src.Command import Command, AssignCommand, CatCommand, EchoCommand, ExitCommand, PwdCommand, UnknownCommand, \
-    WcCommand
+    WcCommand, GrepCommand
 from src.Controller import Controller
 from src.Token import Token
 
@@ -44,6 +44,8 @@ class CommandFactory(object):
                 commands.append(PwdCommand(args=command[1:]))
             elif command[0].data == 'wc':
                 commands.append(WcCommand(args=command[1:]))
+            elif command[0].data == 'grep':
+                commands.append(GrepCommand(args=command[1:]))
             elif len(command) > 1 and command[1].data == '=':
                 commands.append(AssignCommand(args=[command[0], command[2]]))
             else:

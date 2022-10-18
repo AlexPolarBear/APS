@@ -1,9 +1,11 @@
 from typing import List
 
-from src.Command import CatCommand, EchoCommand, ExitCommand, PwdCommand, WcCommand, AssignCommand, UnknownCommand
+from src.Command import CatCommand, EchoCommand, ExitCommand, PwdCommand, WcCommand, AssignCommand, UnknownCommand, \
+    GrepCommand
 from src.CommandFactory import CommandFactory
 from src.Controller import Controller
 from src.Token import Token
+
 
 def equals_token(list1: List[Token], list2: List[str]) -> bool:
     if len(list1) != len(list2):
@@ -13,6 +15,7 @@ def equals_token(list1: List[Token], list2: List[str]) -> bool:
         if token.data != list2[index]:
             return False
     return True
+
 
 def test_generate_commands_1():
     controller = Controller()
@@ -25,11 +28,12 @@ def test_generate_commands_1():
         [Token('wc', '', '')],
         [Token('a', '', ''), Token('=', '', ''), Token('b', '', '')],
         [Token('aboba', '', ''), Token('a1', '', '')],
+        [Token('grep', '', ''), Token('-w', '', ''), Token('-i', '', ''), Token('aboba', '', '')],
         [Token('exit', '', '')],
     ]
     commands = command_factory.generate_commands(str_commands)
 
-    assert len(commands) == 7
+    assert len(commands) == 8
 
     assert isinstance(commands[0], CatCommand)
     assert isinstance(commands[1], EchoCommand)
@@ -37,7 +41,8 @@ def test_generate_commands_1():
     assert isinstance(commands[3], WcCommand)
     assert isinstance(commands[4], AssignCommand)
     assert isinstance(commands[5], UnknownCommand)
-    assert isinstance(commands[6], ExitCommand)
+    assert isinstance(commands[6], GrepCommand)
+    assert isinstance(commands[7], ExitCommand)
 
     assert equals_token(commands[0].args, ['file1.txt', 'file2.txt'])
 
