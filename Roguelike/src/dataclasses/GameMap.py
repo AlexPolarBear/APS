@@ -1,2 +1,6 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class GameMap(object):
-    raise NotImplementedError
+    act: str
