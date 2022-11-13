@@ -1,2 +1,2 @@
-class Button(object):
+class GameMap(object):
     raise NotImplementedError

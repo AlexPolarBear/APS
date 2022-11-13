@@ -1,2 +1,2 @@
-class Button(object):
+def main() -> None:
     raise NotImplementedError
