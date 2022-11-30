@@ -3,10 +3,12 @@ from src.Model.Item import Item
 
 
 class Backpack(object):
-    
     def __init__(self):
-        self._backpack = [];
-    
+        self._backpack = []
+
+    def __len__(self):
+        return len(self._backpack)
+
     def add_item(self, item: Item) -> None:
         self._backpack.append(item)
     

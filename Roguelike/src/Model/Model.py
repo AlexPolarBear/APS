@@ -7,8 +7,8 @@ START_HERO_HEALTH = 10
 MAP_HEIGHT = 10
 MAP_WIDTH = 30
 
-class Model(object):
 
+class Model(object):
     def __init__(self):
         self._map = Map(MAP_WIDTH, MAP_HEIGHT)
         self._user_hero = UserHero(START_HERO_HEALTH)
@@ -20,10 +20,10 @@ class Model(object):
     #     return model
 
     def move(self, direction: Direction):
-        self.map.move(direction, self.user_hero)
-        if self.map.get_status() == Status.FINISH:
-            self.map = Map(MAP_WIDTH, MAP_HEIGHT)
-            self.user_hero = UserHero(START_HERO_HEALTH)
+        self._map.move(direction, self._user_hero)
+        if self._map.get_status() == Status.FINISH:
+            self._map = Map(MAP_WIDTH, MAP_HEIGHT)
+            self._user_hero = UserHero(START_HERO_HEALTH)
 
     def get_map(self) -> Map:
         return self._map
