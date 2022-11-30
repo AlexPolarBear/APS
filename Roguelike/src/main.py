@@ -1,6 +1,5 @@
-from src import Model, Controller
+from src import Model, GameClient
 import argparse
-from src.Model.Map import Direction
 
 
 def main() -> None:
@@ -9,12 +8,9 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.save is None:
-       model = Model()
-      #  model.get_map().print_map()
-      #  model.get_map().move(Direction.RIGHT, model._user_hero)
-      #  model.get_map().print_map()
+        model = Model()
     else:
-       model = Model.from_save(args.save)
-    return # TODO
-    controller = Controller(model)
-    controller.run()
+        model = Model.from_save(args.save)
+
+    game_client = GameClient(model)
+    game_client.play()

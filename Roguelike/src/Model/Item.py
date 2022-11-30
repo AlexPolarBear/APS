@@ -1,5 +1,6 @@
 MAX_HEALTH_POINT = 10
 
+
 class Item(object):
     """
     Class representing an item in game world. Each item has health points that change
@@ -26,4 +27,10 @@ class Item(object):
         return self._health_point
     
     def get_activated(self) -> bool:
-        return self.activated
+        return self._activated
+
+    def get_map_symbol(self) -> str:
+        return '0'
+
+    def get_item_name(self) -> str:
+        return 'Item placeholder'
