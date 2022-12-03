@@ -23,14 +23,6 @@ class ConfusedEnemy(Enemy):
     @health.setter
     def health(self, value: int):
         self._enemy.health = value
-
-    @property
-    def status(self) -> CharacterStatus:
-        return self._enemy.status
-
-    @property
-    def attack(self) -> int:
-        return self._enemy.attack
     
     def next_move(self, current_position: (int, int), map) -> (int, int):
         return self._enemy.next_move(current_position, map)
