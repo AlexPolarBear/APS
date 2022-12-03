@@ -124,8 +124,10 @@ class Map(object):
                 continue
 
             if self._map[enemy_move_x][enemy_move_y] == GridCell.EMPTY:
+                self._coordinates_to_enemies.pop(enemy_position)
                 self._map[enemy_move_x][enemy_move_y] = GridCell.ENEMY
                 self._map[enemy_position[0]][enemy_position[1]] = GridCell.EMPTY
+                self._coordinates_to_enemies[(enemy_move_x, enemy_move_y)] = enemy
             else:
                 user_hero.defence(enemy)
             

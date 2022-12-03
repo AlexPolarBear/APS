@@ -8,6 +8,14 @@ class ConfusedEnemy(Enemy):
         self._confusion_time = 0
     
     @property
+    def status(self) -> CharacterStatus:
+        return self._enemy.status
+    
+    @property
+    def attack(self) -> int:
+        return self._enemy.attack
+
+    @property
     def health(self):
         return self._enemy.health
     
