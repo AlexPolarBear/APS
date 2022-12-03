@@ -3,7 +3,7 @@ from src.Model.Backpack import Backpack
 from src.Model.UserHero import UserHero
 
 
-START_HERO_HEALTH = 20
+START_HERO_HEALTH = 10
 START_HERO_ATTACK = 1
 MAX_ENEMY_HEALTH = 10
 MAX_ENEMY_ATTACK = 2

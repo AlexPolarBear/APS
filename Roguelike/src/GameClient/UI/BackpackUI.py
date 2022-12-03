@@ -59,7 +59,7 @@ class BackpackUI(UI):
                 print(f'-> {index + 1} ', end='')
             else:
                 print(f'   {index + 1} ', end='')
-            print(item.get_item_name(), end='')
+            print(item.get_item_name(), '+HP: ', item.health_point, end='')
             if item.activated:
                 print(' ■')
             else:

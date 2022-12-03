@@ -133,7 +133,7 @@ class Map(object):
                 user_hero.defence(enemy)
             
         if user_hero.status == CharacterStatus.DEAD:
-            self._status = Status.DEATH
+            self._game_status = Status.DEATH
 
 ##########private##########
 

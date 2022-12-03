@@ -54,9 +54,9 @@ class BackpackController(Controller):
         elif button.key == 'space' and self.backpack:
             selected_item = self.backpack.get_item(self.selected_item_index)
             if selected_item.activated:
-                selected_item.deactivate()
+                self.model.deactivate_item(self.selected_item_index)
             else:
-                selected_item.activate()
+                self.model.activate_item(self.selected_item_index)
 
         elif button.key in {'up', 'down'} and self.backpack:
             if button.key == 'up':
