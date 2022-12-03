@@ -56,13 +56,13 @@ class UserHero(object):
         """Activate item in the backpack with appropriate index."""
         item: Item = self._backpack.get_item(index)
         if item.activate():
-            self._health_point += item.get_health_point()
+            self._health_point += item.health_point
     
     def deactivate_item(self, index: int) -> None:
         """Deactivate item in the backpack with appropriate index."""
         item: Item = self._backpack.get_item(index)
         if item.deactivate():
-            self._health_point -= item.get_health_point()
+            self._health_point -= item.health_point
             if self._health_point <= 0:
                 self._status = CharacterStatus.DEAD
 
@@ -79,4 +79,3 @@ class UserHero(object):
         self._health_point -= enemy.attack
         if self._health_point <= 0:
             self._status = CharacterStatus.DEAD
-

@@ -129,7 +129,7 @@ class Map(object):
                 self._map[enemy_move_x][enemy_move_y] = GridCell.ENEMY
                 self._map[enemy_position[0]][enemy_position[1]] = GridCell.EMPTY
                 self._coordinates_to_enemies[(enemy_move_x, enemy_move_y)] = enemy
-            else:
+            elif self._map[enemy_move_x][enemy_move_y] == GridCell.USER_POSITION:
                 user_hero.defence(enemy)
             
         if user_hero.status == CharacterStatus.DEAD:
@@ -195,7 +195,7 @@ class Map(object):
         self._coordinates_to_items = dict()
         cells_with_items = random.sample(empty_cells, min(len(empty_cells), ITEMS_NUMBER))
         for cell in cells_with_items:
-            health_point = random.randrange(self._max_item_health_point)
+            health_point = random.randint(1, self._max_item_health_point)
             self._coordinates_to_items[cell] = Item(health_point)
     
     def _generate_enemies(self):

@@ -65,4 +65,5 @@ class MapUI(UI):
                     print('*', end=' ')
             print()
 
+        print('HP: ', model.user_hero.health_point, 'AP: ', model.user_hero.attack_point)
         print('#' * self.width * 2)

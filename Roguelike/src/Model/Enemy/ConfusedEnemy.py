@@ -11,7 +11,11 @@ class ConfusedEnemy(Enemy):
     @property
     def status(self) -> CharacterStatus:
         return self._enemy.status
-    
+
+    @status.setter
+    def status(self, value: CharacterStatus):
+        self._enemy.status = value
+
     @property
     def attack(self) -> int:
         return self._enemy.attack

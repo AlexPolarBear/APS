@@ -10,6 +10,10 @@ class Enemy(object):
     @property
     def status(self) -> CharacterStatus:
         return self._status
+
+    @status.setter
+    def status(self, value: CharacterStatus):
+        self._status = value
     
     @property
     def attack(self) -> int:
@@ -22,11 +26,11 @@ class Enemy(object):
     @health.setter
     def health(self, value: int):
         self._health_point = value
-    
+
     def defence(self, attack_value: int):
         self.health -= attack_value
         if self.health <= 0:
-            self._status = CharacterStatus.DEAD
+            self.status = CharacterStatus.DEAD
 
     def next_move(self, current_position: (int, int), map) -> (int, int):
         raise NotImplementedError
