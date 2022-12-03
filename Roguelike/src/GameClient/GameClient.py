@@ -23,18 +23,18 @@ class GameClient(object):
         Handler reads user input and converts it to Button instances.
     """
     def __init__(self, model: Model):
-        self.model = model
-        self.controller = MapController(model)
-        self.keyboard_handler = KeyboardHandler(
+        self._model = model
+        self._controller = MapController(model)
+        self._keyboard_handler = KeyboardHandler(
             keys_to_track={'w', 'a', 's', 'd', 'up', 'left', 'down', 'right', 'tab', 'space'},
             key_mapping={'w': 'up', 'a': 'left', 's': 'down', 'd': 'right'},
         )
 
-        self.controller.ui.print(self.model, erase_before=False)
+        self._controller.ui.print(self._model, erase_before=False)
 
     def play(self) -> None:
         """Start a game loop and handle user input."""
         while True:
-            user_button = self.keyboard_handler.get_user_button()
-            self.controller, print_kwargs = self.controller.process_button(user_button)
-            self.controller.ui.print(self.model, erase_before=True, **print_kwargs)
+            user_button = self._keyboard_handler.get_user_button()
+            self._controller, print_kwargs = self._controller.process_button(user_button)
+            self._controller.ui.print(self._model, erase_before=True, **print_kwargs)
