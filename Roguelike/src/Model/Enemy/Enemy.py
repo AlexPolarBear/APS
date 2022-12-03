@@ -15,6 +15,14 @@ class Enemy(object):
     def attack(self) -> int:
         return self._attack_point
     
+    @property
+    def health(self):
+        return self.health
+    
+    @health.setter
+    def health(self, value: int):
+        self._health_point = value
+    
     def defence(self, attack_value: int):
         self._health_point -= attack_value
         if self._health_point <= 0:

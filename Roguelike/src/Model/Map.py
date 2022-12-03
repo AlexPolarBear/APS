@@ -80,7 +80,14 @@ class Map(object):
                 map_with_items[i][j] = self._map[i][j]
                 if map_with_items[i][j] == GridCell.EMPTY and (i, j) in self._coordinates_to_items:
                     map_with_items[i][j] = GridCell.ITEM
+                if map_with_items[i][j] == GridCell.ENEMY:
+                    map_with_items[i][j] = self._coordinates_to_enemies[(i, j)].get_type()
         return map_with_items
+    
+    def distance_from_user(x: int, y: int):
+        if not self._check_in_bounds(x, y):
+            return -1
+        return self._distance_from_user[x][y]
 
     def move(self, direction: Direction, user_hero: UserHero) -> None:
         new_row, new_col = self._user_position[0] + ONE_STEP[direction.value][0], \
@@ -108,6 +115,8 @@ class Map(object):
                 self._coordinates_to_enemies.pop((new_row, new_col))
                 self._map[new_row][new_col] = GridCell.EMPTY
         
+        self._calculate_distance(self._user_position)
+
         for (enemy_position, enemy) in self._coordinates_to_enemies.items():
             (enemy_move_x, enemy_move_y) = enemy.next_move(enemy_position, self._map)
             
@@ -119,7 +128,6 @@ class Map(object):
                 self._map[enemy_position[0]][enemy_position[1]] = GridCell.EMPTY
             else:
                 user_hero.defence(enemy)
-
             
         if user_hero.status == CharacterStatus.DEAD:
             self._status = Status.DEATH
@@ -129,29 +137,33 @@ class Map(object):
     def _check_in_bounds(self, row: int, col: int) -> bool:
         return (0 <= row < self._height) and (0 <= col < self._width)
 
-    def _find_path(self) -> bool:
-        if self._map[self._start_position[0]][self._start_position[1]] == GridCell.WALL:
-            return False
-
-        visited = []
-        for _ in range(self._height):
-            visited.append([False] * self._width)
+    def _calculate_distance(self, start_position):
+        for i in range(self._height):
+            for j in range(self._width):
+                self._distance_from_user[i][j] = -1
+        
+        if self._map[start_position[0]][start_position[1]] == GridCell.WALL:
+            return
 
         queue: Deque[(int, int)] = deque()
-        queue.append(self._start_position)
-        visited[self._start_position[0]][self._start_position[1]] = True
+        queue.append(start_position)
+        self._distance_from_user[start_position[0]][start_position[1]] = 0
 
         while len(queue) > 0:
             position = queue.popleft()
 
             for (dx, dy) in ONE_STEP:
                 (new_row, new_col) = (position[0] + dx, position[1] + dy)
-                if self._check_in_bounds(new_row, new_col) and self._map[new_row][new_col] == GridCell.EMPTY \
-                        and not visited[new_row][new_col]:
-                    visited[new_row][new_col] = True
+                if self._check_in_bounds(new_row, new_col) and self._map[new_row][new_col] != GridCell.WALL \
+                        and self._distance_from_user[new_row][new_col] == -1:
+                    self._distance_from_user[new_row][new_col] = self._distance_from_user[position[0]][position[1]] + 1
                     queue.append((new_row, new_col))
 
-        return visited[self._finish_position[0]][self._finish_position[1]]
+    def _find_path(self) -> bool:
+        if self._map[self._start_position[0]][self._start_position[1]] == GridCell.WALL:
+            return False
+        self._calculate_distance(self._start_position)
+        return self._distance_from_user[self._finish_position[0]][self._finish_position[1]] != -1
 
     def _generate_walls(self):
         WALLS_NUMBER = self._width * self._height // 2
@@ -210,8 +222,10 @@ class Map(object):
 
     def _generate_map(self) -> None:
         self._map: List[List[GridCell]] = []
+        self._distance_from_user: List[List[int]] = []
         for i in range(self._height):
             self._map.append([GridCell.EMPTY] * self._width)
+            self._distance_from_user.append([-1] * self._width)
 
         self._generate_walls()
         self._map[self._start_position[0]][self._start_position[1]] = GridCell.USER_POSITION
