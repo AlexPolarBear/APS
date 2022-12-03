@@ -11,6 +11,7 @@ def main() -> None:
         model = Model()
     else:
         model = Model.from_save(args.save)
-
-    game_client = GameClient(model)
-    game_client.play()
+    model.world_map._print_map()
+    a = model.world_map.get_map()
+    #game_client = GameClient(model)
+    #game_client.play()
