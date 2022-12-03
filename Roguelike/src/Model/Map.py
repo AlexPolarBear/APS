@@ -3,7 +3,7 @@ from enum import Enum
 import random
 from typing import Deque, List
 
-from src.Model import UserHero
+from src.Model.UserHero import UserHero, CharacterStatus
 from src.Model.Item import Item
 from src.Model.Enemy.Enemy import Enemy
 from src.Model.Enemy.AggressiveEnemy import AggressiveEnemy
@@ -29,11 +29,12 @@ class GridCell(Enum):
     EMPTY = 0
     WALL = 1
     USER_POSITION = 2
-    ITEM = 3
-    AGGRESSIVE_ENEMY = 4
-    NEUTRAL_ENEMY = 5
-    COWARD_ENEMY = 6
-    CONFUSED_ENEMY = 7
+    ITEM = 3              #only for printing, all items are saved in dict
+    ENEMY = 4             #during the game all enemies are saved as ENEMY
+    AGGRESSIVE_ENEMY = 5  #only for printing
+    NEUTRAL_ENEMY = 6     #only for printing
+    COWARD_ENEMY = 7      #only for printing
+    CONFUSED_ENEMY = 8    #only for printing
 
 
 ONE_STEP = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -70,8 +71,16 @@ class Map(object):
         return self._game_status
     
     def get_map(self) -> List[List[GridCell]]:
-        #TODO
-        return self._map
+        map_with_items: List[List[GridCell]] = []
+        for i in range(self._height):
+            map_with_items.append([GridCell.EMPTY] * self._width)
+        
+        for i in range(self._height):
+            for j in range(self._width):
+                map_with_items[i][j] = self._map[i][j]
+                if map_with_items[i][j] == GridCell.EMPTY and (i, j) in self._coordinates_to_items:
+                    map_with_items[i][j] = GridCell.ITEM
+        return map_with_items
 
     def move(self, direction: Direction, user_hero: UserHero) -> None:
         new_row, new_col = self._user_position[0] + ONE_STEP[direction.value][0], \
@@ -80,16 +89,40 @@ class Map(object):
             return
         if self._map[new_row][new_col] == GridCell.WALL:
             return
-        if self._map[new_row][new_col] == GridCell.ITEM:
-            item = self._coordinates_to_item[(new_row, new_col)]
-            user_hero.get_backpack().add_item(item)
-            self._coordinates_to_item.pop((new_row, new_col))
+        
+        if self._map[new_row][new_col] == GridCell.EMPTY:
+            self._map[new_row][new_col] = GridCell.USER_POSITION
+            self._map[self._user_position[0]][self._user_position[1]] = GridCell.EMPTY
+            self._user_position = (new_row, new_col)
+            if self._user_position == self._finish_position:
+                self._game_status = Status.FINISH
+            
+            if (new_row, new_col) in self._coordinates_to_items:
+                item = self._coordinates_to_items[(new_row, new_col)]
+                user_hero.get_backpack().add_item(item)
+                self._coordinates_to_items.pop((new_row, new_col))
+        else:
+            enemy = self._coordinates_to_enemies[(new_row, new_col)]
+            user_hero.attack(enemy)
+            if enemy.status == CharacterStatus.DEAD:
+                self._coordinates_to_enemies.pop((new_row, new_col))
+                self._map[new_row][new_col] = GridCell.EMPTY
+        
+        for (enemy_position, enemy) in self._coordinates_to_enemies.items():
+            (enemy_move_x, enemy_move_y) = enemy.next_move(enemy_position, self._map)
+            
+            if (enemy_move_x, enemy_move_y) == enemy_position:
+                continue
 
-        self._map[new_row][new_col] = GridCell.USER_POSITION
-        self._map[self._user_position[0]][self._user_position[1]] = GridCell.EMPTY
-        self._user_position = (new_row, new_col)
-        if self._user_position == self._finish_position:
-            self._game_status = Status.FINISH
+            if self._map[enemy_move_x][enemy_move_y] == GridCell.EMPTY:
+                self._map[enemy_move_x][enemy_move_y] = GridCell.ENEMY
+                self._map[enemy_position[0]][enemy_position[1]] = GridCell.EMPTY
+            else:
+                user_hero.defence(enemy)
+
+            
+        if user_hero.status == CharacterStatus.DEAD:
+            self._status = Status.DEATH
 
 ##########private##########
 
@@ -144,18 +177,18 @@ class Map(object):
                 if self._map[i][j] == GridCell.EMPTY:
                     empty_cells.append((i, j))
 
-        self._coordinates_to_item = dict()
+        self._coordinates_to_items = dict()
         cells_with_items = random.sample(empty_cells, min(len(empty_cells), ITEMS_NUMBER))
         for cell in cells_with_items:
             health_point = random.randrange(self._max_item_health_point)
-            self._coordinates_to_item[cell] = Item(health_point)
+            self._coordinates_to_items[cell] = Item(health_point)
     
     def _generate_enemies(self):
         ENEMIES_NUMBER = 15
         empty_cells = []
         for i in range(self._height):
             for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY and (i, j) not in self._coordinates_to_item:
+                if self._map[i][j] == GridCell.EMPTY and (i, j) not in self._coordinates_to_items:
                     empty_cells.append((i, j))
         
         self._coordinates_to_enemies = dict()
@@ -164,19 +197,16 @@ class Map(object):
             enemy_rand_type = random.randrange(3)
             enemy_health = random.randrange(self._max_enemy_health_point) + 1
             enemy_attack = random.randrange(self._max_enemy_attack_point) + 1
-
+            
             if enemy_rand_type == 0:
-                enemy_type = GridCell.AGGRESSIVE_ENEMY
                 enemy = AggressiveEnemy(enemy_health, enemy_attack)
             elif enemy_rand_type == 1:
-                enemy_type = GridCell.NEUTRAL_ENEMY
                 enemy = NeutralEnemy(enemy_health, enemy_attack)
             else:
-                enemy_type = GridCell.COWARD_ENEMY
                 enemy = CowardEnemy(enemy_health, enemy_attack)
             
             self._coordinates_to_enemies[(cell_x, cell_y)] = ConfusedEnemy(enemy)
-            self._map[cell_x][cell_y] = enemy_type
+            self._map[cell_x][cell_y] = GridCell.ENEMY
 
     def _generate_map(self) -> None:
         self._map: List[List[GridCell]] = []
@@ -191,21 +221,23 @@ class Map(object):
     def _print_map(self) -> None:
         for i in range(self._height):
             for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY:
+                if self._map[i][j] == GridCell.EMPTY and not (i, j) in self._coordinates_to_items:
                     print('.', end=' ')
                 elif self._map[i][j] == GridCell.WALL:
                     print('█', end=' ')
                 elif self._map[i][j] == GridCell.USER_POSITION:
                     print('@', end=' ')
-                elif self._map[i][j] == GridCell.ITEM:
-                    item = self._coordinates_to_item[(i, j)]
+                elif self._map[i][j] == GridCell.EMPTY and (i, j) in self._coordinates_to_items:
+                    item = self._coordinates_to_items[(i, j)]
                     print(item.get_map_symbol(), end=' ')
-                elif self._map[i][j] == GridCell.AGGRESSIVE_ENEMY:
-                    print('a', end=' ')
-                elif self._map[i][j] == GridCell.NEUTRAL_ENEMY:
-                    print('n', end=' ')
-                elif self._map[i][j] == GridCell.COWARD_ENEMY:
-                    print('c', end=' ')
-                elif self._map[i][j] == GridCell.CONFUSED_ENEMY:
-                    print('*', end=' ')
+                elif self._map[i][j] == GridCell.ENEMY:
+                    enemy = self._coordinates_to_enemies[(i, j)]
+                    if enemy.get_type() == GridCell.AGGRESSIVE_ENEMY:
+                        print('a', end=' ')
+                    elif enemy.get_type() == GridCell.NEUTRAL_ENEMY:
+                        print('n', end=' ')
+                    elif enemy.get_type() == GridCell.COWARD_ENEMY:
+                        print('c', end=' ')
+                    elif enemy.get_type() == GridCell.CONFUSED_ENEMY:
+                        print('*', end=' ')
             print()

@@ -33,7 +33,7 @@ class Model(object):
     def move(self, direction: Direction):
         """Move the user's hero to the appropriate direction. If the user finishes the current level, then generate new level."""
         self._map.move(direction, self._user_hero)
-        if self._map.get_status() == Status.FINISH:
+        if self._map.status == Status.FINISH or self._map.status == Status.DEATH:
             self._map = Map(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT, MAX_ENEMY_HEALTH, MAX_ENEMY_ATTACK)
             self._user_hero = UserHero(START_HERO_HEALTH, START_HERO_ATTACK)
 

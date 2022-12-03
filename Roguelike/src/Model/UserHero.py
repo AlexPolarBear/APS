@@ -3,8 +3,10 @@ from src.Model.Item import Item
 from enum import Enum
 
 START_LEVEL = 1
+START_POINTS = 0
+INCREASE_ATTACK_STEP = 2
 
-class UserStatus(Enum):
+class CharacterStatus(Enum):
     ALIVE = 0
     DEAD = 1
 
@@ -21,8 +23,9 @@ class UserHero(object):
         self._health_point = health_point
         self._attack_point = attack_point
         self._level = START_LEVEL
+        self._points = START_POINTS
         self._backpack = Backpack()
-        self._status = UserStatus.ALIVE
+        self._status = CharacterStatus.ALIVE
     
     @property
     def backpack(self) -> Backpack:
@@ -45,7 +48,7 @@ class UserHero(object):
         return self._level
     
     @property 
-    def status(self) -> UserStatus:
+    def status(self) -> CharacterStatus:
         """Return user's status."""
         return self._status
     
@@ -61,4 +64,19 @@ class UserHero(object):
         if item.deactivate():
             self._health_point -= item.get_health_point()
             if self._health_point <= 0:
-                self._status = UserStatus.DEAD
+                self._status = CharacterStatus.DEAD
+
+    def attack(self, enemy):
+        enemy.defence(self._attack_point)
+        if enemy.status == CharacterStatus.DEAD:
+            self._points += 1
+            if self._points == self._level:
+                self._points = START_POINTS
+                self._level += 1
+                self._attack_point += INCREASE_ATTACK_STEP
+    
+    def defence(self, enemy):
+        self._health_point -= enemy.attack
+        if self._health_point <= 0:
+            self._status = CharacterStatus.DEAD
+
