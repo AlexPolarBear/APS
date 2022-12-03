@@ -117,7 +117,8 @@ class Map(object):
         
         self._calculate_distance(self._user_position)
 
-        for (enemy_position, enemy) in self._coordinates_to_enemies.items():
+        old_positions = list(self._coordinates_to_enemies.items())
+        for (enemy_position, enemy) in old_positions:
             (enemy_move_x, enemy_move_y) = enemy.next_move(enemy_position, self)
             
             if (enemy_move_x, enemy_move_y) == enemy_position:

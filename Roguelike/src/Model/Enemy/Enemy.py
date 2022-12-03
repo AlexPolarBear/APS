@@ -17,15 +17,15 @@ class Enemy(object):
     
     @property
     def health(self):
-        return self.health
+        return self._health_point
     
     @health.setter
     def health(self, value: int):
         self._health_point = value
     
     def defence(self, attack_value: int):
-        self._health_point -= attack_value
-        if self._health_point <= 0:
+        self.health -= attack_value
+        if self.health <= 0:
             self._status = CharacterStatus.DEAD
 
     def next_move(self, current_position: (int, int), map) -> (int, int):
