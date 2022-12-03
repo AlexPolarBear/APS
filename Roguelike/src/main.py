@@ -12,9 +12,5 @@ def main() -> None:
         model = Model()
     else:
         model = Model.from_save(args.save)
-    model.world_map._print_map()
-    model.move(Direction.RIGHT)
-    print('---------')
-    model.world_map._print_map()
-    #game_client = GameClient(model)
-    #game_client.play()
+    game_client = GameClient(model)
+    game_client.play()

@@ -12,7 +12,7 @@ class CowardEnemy(Enemy):
         max_dist: int = 0
         for (dx, dy) in ONE_STEP:
             (new_row, new_col) = (current_position[0] + dx, current_position[1] + dy)
-            dst = self.distance_from_user(new_row, new_col)
+            dst = map.distance_from_user(new_row, new_col)
             if dst != -1:
                 if dst > max_dist:
                     max_dist = dst

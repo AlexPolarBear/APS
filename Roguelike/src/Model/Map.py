@@ -84,7 +84,7 @@ class Map(object):
                     map_with_items[i][j] = self._coordinates_to_enemies[(i, j)].get_type()
         return map_with_items
     
-    def distance_from_user(x: int, y: int):
+    def distance_from_user(self, x: int, y: int):
         if not self._check_in_bounds(x, y):
             return -1
         return self._distance_from_user[x][y]
@@ -106,7 +106,7 @@ class Map(object):
             
             if (new_row, new_col) in self._coordinates_to_items:
                 item = self._coordinates_to_items[(new_row, new_col)]
-                user_hero.get_backpack().add_item(item)
+                user_hero.backpack.add_item(item)
                 self._coordinates_to_items.pop((new_row, new_col))
         else:
             enemy = self._coordinates_to_enemies[(new_row, new_col)]
@@ -118,7 +118,7 @@ class Map(object):
         self._calculate_distance(self._user_position)
 
         for (enemy_position, enemy) in self._coordinates_to_enemies.items():
-            (enemy_move_x, enemy_move_y) = enemy.next_move(enemy_position, self._map)
+            (enemy_move_x, enemy_move_y) = enemy.next_move(enemy_position, self)
             
             if (enemy_move_x, enemy_move_y) == enemy_position:
                 continue
