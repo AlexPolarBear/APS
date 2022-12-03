@@ -59,11 +59,11 @@ class BackpackUI(UI):
                 print(f'-> {index + 1} ', end='')
             else:
                 print(f'   {index + 1} ', end='')
-            print(item.get_item_name(), '+HP: ', item.health_point, end='')
+            print(item.get_item_name(), '+HP:', item.health_point, end='')
             if item.activated:
                 print(' ■')
             else:
                 print(' □')
-        print('\n' * (self.height - len(backpack) - 4))
+        print('\n' * (self.height - len(backpack) - 1), end='')
         print('Press space to activate/deactivate item')
         print('#' * self.width * 2)

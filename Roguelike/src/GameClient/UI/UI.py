@@ -48,6 +48,6 @@ class UI(ABC):
         Erase UI from the screen.
         Works only on ANSI-capable terminals.
         """
-        for _ in range(self.height + 3):
+        for _ in range(self.height + 4):
             sys.stdout.write('\x1b[1A\x1b[2K')
             sys.stdout.flush()

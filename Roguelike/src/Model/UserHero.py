@@ -56,7 +56,6 @@ class UserHero(object):
         """Activate item in the backpack with appropriate index."""
         item: Item = self._backpack.get_item(index)
         if item.activate():
-            print('aaaaaaaaaa')
             self._health_point += item.health_point
     
     def deactivate_item(self, index: int) -> None:
