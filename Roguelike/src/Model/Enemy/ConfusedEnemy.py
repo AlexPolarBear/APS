@@ -1,12 +1,20 @@
-from src.Model.Enemy.Enemy import Enemy
+import random
+from typing import List
+
+from src.Model.Enemy.Enemy import Enemy, EnemyStyle
 from src.Model.UserHero import CharacterStatus
 
+
+confused_adjectives: List[str] = [
+    'confused', 'dazed', 'disoriented', 'perplexed',
+]
 
 class ConfusedEnemy(Enemy):
 
     def __init__(self, enemy: Enemy):
         self._enemy = enemy
         self._confusion_time = 0
+        self._enemy_adjective = random.choice(confused_adjectives)
     
     @property
     def status(self) -> CharacterStatus:
@@ -27,6 +35,10 @@ class ConfusedEnemy(Enemy):
     @health.setter
     def health(self, value: int):
         self._enemy.health = value
+
+    @property
+    def name(self) -> str:
+        return f'{self._enemy_adjective} {" ".join(self._enemy.name.split(" ")[1:])}'
     
     def next_move(self, current_position: (int, int), map) -> (int, int):
         return self._enemy.next_move(current_position, map)
