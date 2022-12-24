@@ -1,4 +1,4 @@
-from .Enemy import Enemy
+from .Enemy import Enemy, EnemyStyle
 from .AggressiveEnemy import AggressiveEnemy
 from .NeutralEnemy import NeutralEnemy
 from .CowardEnemy import CowardEnemy
@@ -11,4 +11,5 @@ __all__ = [
     'NeutralEnemy',
     'CowardEnemy',
     'ConfusedEnemy',
+    'EnemyStyle',
 ]

@@ -1,11 +1,22 @@
+from enum import Enum
+from typing import List, Dict
+
 from src.Model.UserHero import CharacterStatus
+
+
+class EnemyStyle(Enum):
+    FANTASY = 0
+    SCIFI = 1
+
 
 class Enemy(object):
 
-    def __init__(self, health_point: int, attack_point: int):
+    def __init__(self, health_point: int, attack_point: int, enemy_style: EnemyStyle):
         self._health_point = health_point
         self._attack_point = attack_point
         self._status = CharacterStatus.ALIVE
+        self._enemy_style = enemy_style
+        self._enemy_adjective, self._entity_name = self._get_enemy_name(enemy_style)
     
     @property
     def status(self) -> CharacterStatus:
@@ -27,6 +38,10 @@ class Enemy(object):
     def health(self, value: int):
         self._health_point = value
 
+    @property
+    def name(self) -> str:
+        return f'{self._enemy_adjective} {self._entity_name}'
+
     def defence(self, attack_value: int):
         self.health -= attack_value
         if self.health <= 0:
@@ -36,4 +51,7 @@ class Enemy(object):
         raise NotImplementedError
     
     def get_type(self):
+        raise NotImplementedError
+
+    def _get_enemy_name(self, enemy_style: EnemyStyle) -> (str, str):
         raise NotImplementedError

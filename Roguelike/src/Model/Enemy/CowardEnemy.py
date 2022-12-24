@@ -1,11 +1,27 @@
-from src.Model.Enemy.Enemy import Enemy
+import random
+from typing import Dict, List
+
+from src.Model.Enemy.Enemy import Enemy, EnemyStyle
+
+
+style_to_enemy_name: Dict[EnemyStyle, List[str]] = {
+    EnemyStyle.FANTASY: [
+        'chicken', 'rabbit', 'mouse',
+    ],
+    EnemyStyle.SCIFI: [
+        'cleaning bot', 'scrapper',
+    ]
+}
+coward_synonyms: List[str] = [
+    'scared', 'frightened', 'timid', 'coward',
+]
 
 
 class CowardEnemy(Enemy):
 
-    def __init__(self, health_point: int, attack_point: int):
-        super().__init__(health_point, attack_point)
-    
+    def __init__(self, health_point: int, attack_point: int, enemy_style: EnemyStyle):
+        super().__init__(health_point, attack_point, enemy_style)
+
     def next_move(self, current_position: (int, int), map) -> (int, int):
         from src.Model.Map import ONE_STEP
         next_step = current_position
@@ -22,3 +38,6 @@ class CowardEnemy(Enemy):
     def get_type(self):
         from src.Model.Map import GridCell
         return GridCell.COWARD_ENEMY
+
+    def _get_enemy_name(self, enemy_style: EnemyStyle) -> (str, str):
+        return random.choice(coward_synonyms), random.choice(style_to_enemy_name[self._enemy_style])
