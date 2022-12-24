@@ -8,8 +8,10 @@ MAX_ENEMY_ATTACK = 2
 
 
 class EnemyFactory(object):
-    def __init__(self, enemy_style: EnemyStyle = EnemyStyle.FANTASY):
+    def __init__(self, enemy_style: EnemyStyle = None):
         self._enemy_types = [AggressiveEnemy, NeutralEnemy, CowardEnemy]
+        if enemy_style is None:
+            enemy_style = random.choice(list(EnemyStyle))
         self._enemy_style = enemy_style
 
     def create_random_enemy(self) -> Enemy:
