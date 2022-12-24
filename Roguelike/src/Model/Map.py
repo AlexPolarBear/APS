@@ -3,6 +3,7 @@ from enum import Enum
 import random
 from typing import Deque, List
 
+from src.Model.EnemyFactory import EnemyFactory
 from src.Model.UserHero import UserHero, CharacterStatus
 from src.Model.Item import Item
 from src.Model.Enemy.Enemy import Enemy
@@ -44,7 +45,7 @@ class Map(object):
 
 ##########public##########
 
-    def __init__(self, width, height, max_item_health_point, max_enemy_health_point, max_enemy_attack_point):
+    def __init__(self, width, height, max_item_health_point):
         self._width = width
         self._height = height
         self._user_position = (0, 0)
@@ -53,8 +54,6 @@ class Map(object):
         self._game_status = Status.IN_PROGRESS
 
         self._max_item_health_point = max_item_health_point
-        self._max_enemy_health_point = max_enemy_health_point
-        self._max_enemy_attack_point = max_enemy_attack_point
 
         self._generate_map()
 
@@ -208,17 +207,11 @@ class Map(object):
         
         self._coordinates_to_enemies = dict()
         cells_with_enemies = random.sample(empty_cells, min(len(empty_cells), ENEMIES_NUMBER))
+
+        enemy_factory = EnemyFactory()
+
         for (cell_x, cell_y) in cells_with_enemies:
-            enemy_rand_type = random.randrange(3)
-            enemy_health = random.randrange(self._max_enemy_health_point) + 1
-            enemy_attack = random.randrange(self._max_enemy_attack_point) + 1
-            
-            if enemy_rand_type == 0:
-                enemy = AggressiveEnemy(enemy_health, enemy_attack)
-            elif enemy_rand_type == 1:
-                enemy = NeutralEnemy(enemy_health, enemy_attack)
-            else:
-                enemy = CowardEnemy(enemy_health, enemy_attack)
+            enemy = enemy_factory.create_random_enemy()
             
             self._coordinates_to_enemies[(cell_x, cell_y)] = ConfusedEnemy(enemy)
             self._map[cell_x][cell_y] = GridCell.ENEMY

@@ -5,8 +5,6 @@ from src.Model.UserHero import UserHero
 
 START_HERO_HEALTH = 10
 START_HERO_ATTACK = 1
-MAX_ENEMY_HEALTH = 10
-MAX_ENEMY_ATTACK = 2
 MAX_ITEM_HEALTH_POINT = 10
 MAP_HEIGHT = 10
 MAP_WIDTH = 30
@@ -21,7 +19,7 @@ class Model(object):
 
     def __init__(self):
         """Create new level."""
-        self._map = Map(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT, MAX_ENEMY_HEALTH, MAX_ENEMY_ATTACK)
+        self._map = Map(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT)
         self._user_hero = UserHero(START_HERO_HEALTH, START_HERO_ATTACK)
 
     # @classmethod
@@ -34,7 +32,7 @@ class Model(object):
         """Move the user's hero to the appropriate direction. If the user finishes the current level, then generate new level."""
         self._map.move(direction, self._user_hero)
         if self._map.status == Status.FINISH or self._map.status == Status.DEATH:
-            self._map = Map(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT, MAX_ENEMY_HEALTH, MAX_ENEMY_ATTACK)
+            self._map = Map(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT)
             self._user_hero = UserHero(START_HERO_HEALTH, START_HERO_ATTACK)
 
     @property
