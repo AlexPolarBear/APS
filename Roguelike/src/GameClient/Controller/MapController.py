@@ -49,6 +49,10 @@ class MapController(Controller):
         Tuple[Controller, Dict[str, Any]]
             Returns controller which takes control and dict with UI rendering info.
         """
+        if button.key == 'shift':
+            from src.GameClient.Controller import InspectionController
+            return InspectionController(self.model), dict(selected_enemy_index=0)
+
         if button.key == 'tab':
             from src.GameClient.Controller import BackpackController
             return BackpackController(self.model), dict(selected_item_index=0)

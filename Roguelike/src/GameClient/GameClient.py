@@ -26,7 +26,7 @@ class GameClient(object):
         self._model = model
         self._controller = MapController(model)
         self._keyboard_handler = KeyboardHandler(
-            keys_to_track={'w', 'a', 's', 'd', 'up', 'left', 'down', 'right', 'tab', 'space'},
+            keys_to_track={'w', 'a', 's', 'd', 'up', 'left', 'down', 'right', 'tab', 'space', 'shift'},
             key_mapping={'w': 'up', 'a': 'left', 's': 'down', 'd': 'right'},
         )
 

@@ -1,7 +1,7 @@
 from collections import deque
 from enum import Enum
 import random
-from typing import Deque, List
+from typing import Deque, List, Optional, Dict
 
 from src.Model.EnemyFactory import EnemyFactory
 from src.Model.UserHero import UserHero, CharacterStatus
@@ -87,6 +87,18 @@ class Map(object):
         if not self._check_in_bounds(x, y):
             return -1
         return self._distance_from_user[x][y]
+
+    def get_enemy_info(self, xy: (int, int)) -> Optional[Dict[str, str]]:
+        x, y = xy
+        if not self._check_in_bounds(x, y) or self._map[x][y] != GridCell.ENEMY:
+            return None
+        enemy: Enemy = self._coordinates_to_enemies[(x, y)]
+        return {
+            'type': enemy.get_type().name,
+            'name': enemy.name,
+            'health': str(enemy.health),
+            'attack': str(enemy.attack),
+        }
 
     def move(self, direction: Direction, user_hero: UserHero) -> None:
         new_row, new_col = self._user_position[0] + ONE_STEP[direction.value][0], \
