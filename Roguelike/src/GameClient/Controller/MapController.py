@@ -1,17 +1,9 @@
 from typing import Tuple, Dict, Any
 
+from src.GameClient.Command import Command, MoveUpCommand, MoveDownCommand, MoveRightCommand, MoveLeftCommand
 from src.GameClient.Controller import Controller
 from src.GameClient.UI import MapUI
-from src.Model.Map.Map import Direction
 from src.dataclasses import Button
-
-"""Maps user inputs to model API calls."""
-key_to_direction = {
-    'up': Direction.UP,
-    'left': Direction.LEFT,
-    'right': Direction.RIGHT,
-    'down': Direction.DOWN,
-}
 
 
 class MapController(Controller):
@@ -34,6 +26,10 @@ class MapController(Controller):
     def __init__(self, model):
         super(MapController, self).__init__(model)
         self.ui = MapUI(model.world_map.width, model.world_map.height)
+        self.move_down_command = MoveDownCommand(model)
+        self.move_up_command = MoveUpCommand(model)
+        self.move_left_command = MoveLeftCommand(model)
+        self.move_right_command = MoveRightCommand(model)
 
     def process_button(self, button: Button) -> Tuple[Controller, Dict[str, Any]]:
         """
@@ -58,6 +54,30 @@ class MapController(Controller):
             return BackpackController(self.model), dict(selected_item_index=0)
 
         elif button.key in {'up', 'left', 'down', 'right'}:
-            self.model.move(key_to_direction[button.key])
+            command = self._choose_move_command(button)
+            command.execute()
 
         return self, dict()
+
+    def _choose_move_command(self, button: Button) -> Command:
+        """
+        Choose move command based on user input.
+
+        Parameters
+        ----------
+        button : Button
+            Button instance which represents user input.
+
+        Returns
+        -------
+        Command
+            Move command instance.
+        """
+        if button.key == 'up':
+            return self.move_up_command
+        elif button.key == 'down':
+            return self.move_down_command
+        elif button.key == 'left':
+            return self.move_left_command
+        elif button.key == 'right':
+            return self.move_right_command

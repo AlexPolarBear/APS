@@ -3,6 +3,7 @@ from typing import Tuple, Dict, Any
 from src.Model import Model, Backpack
 from src.GameClient.Controller import Controller
 from src.GameClient.UI import BackpackUI
+from src.GameClient.Command import SwitchItemCommand
 from src.dataclasses import Button
 
 
@@ -52,11 +53,7 @@ class BackpackController(Controller):
             return MapController(self.model), dict()
 
         elif button.key == 'space' and self.backpack:
-            selected_item = self.backpack.get_item(self.selected_item_index)
-            if selected_item.activated:
-                self.model.deactivate_item(self.selected_item_index)
-            else:
-                self.model.activate_item(self.selected_item_index)
+            SwitchItemCommand(self.model, self.selected_item_index).execute()
 
         elif button.key in {'up', 'down'} and self.backpack:
             if button.key == 'up':
