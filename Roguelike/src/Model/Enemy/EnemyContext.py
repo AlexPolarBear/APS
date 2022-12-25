@@ -46,7 +46,7 @@ class EnemyContext(object):
 
     @property
     def name(self) -> str:
-        return self._enemy.name
+        return f'{self._enemy.name.split(" ")[0]} {" ".join(self._original_state.name.split(" ")[1:])}'
 
     @property
     def probability(self) -> float:
