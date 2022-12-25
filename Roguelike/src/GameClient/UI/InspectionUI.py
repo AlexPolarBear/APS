@@ -62,6 +62,12 @@ class InspectionUI(UI):
                     print('@', end=' ')
                 elif cell == GridCell.ITEM:
                     print('0', end=' ')
+                elif cell == GridCell.MOLD:
+                    enemy_coordinates_list.append((i, j))
+                    if selected_enemy_index == len(enemy_coordinates_list) - 1:
+                        print('\033[31mm\033[0m', end=' ')
+                    else:
+                        print('m', end=' ')
                 elif cell == GridCell.AGGRESSIVE_ENEMY:
                     enemy_coordinates_list.append((i, j))
                     if selected_enemy_index == len(enemy_coordinates_list) - 1:
