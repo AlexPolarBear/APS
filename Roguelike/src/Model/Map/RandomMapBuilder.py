@@ -3,6 +3,7 @@ import random
 from src.Model.Item import Item
 from src.Model.Enemy.EnemyFactory import EnemyFactory
 from src.Model.Enemy.ConfusedEnemy import ConfusedEnemy
+from src.Model.Enemy.EnemyContext import EnemyContext
 
 class RandomMapBuilder(MapBuilder):
     """Class for random building the world map."""
@@ -77,7 +78,7 @@ class RandomMapBuilder(MapBuilder):
         for (cell_x, cell_y) in cells_with_enemies:
             enemy = self._enemy_factory.create_random_enemy()
 
-            self._coordinates_to_enemies[(cell_x, cell_y)] = ConfusedEnemy(enemy)
+            self._coordinates_to_enemies[(cell_x, cell_y)] = EnemyContext(enemy)
             self._map[cell_x][cell_y] = GridCell.ENEMY
         return self._coordinates_to_enemies
 

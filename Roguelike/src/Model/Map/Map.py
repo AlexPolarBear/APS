@@ -10,7 +10,6 @@ from src.Model.Enemy.Enemy import Enemy
 from src.Model.Enemy.AggressiveEnemy import AggressiveEnemy
 from src.Model.Enemy.NeutralEnemy import NeutralEnemy
 from src.Model.Enemy.CowardEnemy import CowardEnemy
-from src.Model.Enemy.ConfusedEnemy import ConfusedEnemy
 from src.Model.Map.RandomMapBuilder import RandomMapBuilder
 from src.Model.Map.FileMapBuilder import FileMapBuilder
 

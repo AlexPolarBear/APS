@@ -31,6 +31,10 @@ class Enemy(object):
         return self._attack_point
     
     @property
+    def style(self):
+        return self._enemy_style
+
+    @property
     def health(self):
         return self._health_point
     

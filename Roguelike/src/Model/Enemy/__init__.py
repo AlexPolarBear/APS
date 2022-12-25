@@ -4,6 +4,7 @@ from .NeutralEnemy import NeutralEnemy
 from .CowardEnemy import CowardEnemy
 from .ConfusedEnemy import ConfusedEnemy
 from .Mold import Mold
+from .EnemyContext import EnemyContext
 
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     'ConfusedEnemy',
     'EnemyStyle',
     'Mold',
+    'EnemyContext',
 ]
