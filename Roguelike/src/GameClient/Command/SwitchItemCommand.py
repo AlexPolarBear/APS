@@ -3,6 +3,7 @@ from src.Model import Model
 
 
 class SwitchItemCommand(Command):
+    """Command that switches the activation state of an item in the backpack."""
     def __init__(self, model: Model, item_index: int):
         super().__init__(model)
         self._item_index = item_index
