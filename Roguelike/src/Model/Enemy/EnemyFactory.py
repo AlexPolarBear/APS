@@ -5,7 +5,7 @@ from src.Model.Enemy import Enemy, AggressiveEnemy, NeutralEnemy, CowardEnemy, E
 
 MAX_ENEMY_HEALTH = 10
 MAX_ENEMY_ATTACK = 2
-MOLD_PROBABILITY = 0.2
+MOLD_PROBABILITY = 0.05
 
 
 class EnemyFactory(object):

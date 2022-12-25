@@ -15,6 +15,11 @@ class Mold(NeutralEnemy):
     def probability(self) -> float:
         return self._probability
 
+    def _get_enemy_name(self, enemy_style: EnemyStyle) -> (str, str):
+        enemy_adjective, entity_name = super()._get_enemy_name(enemy_style)
+        entity_name = 'mold'
+        return enemy_adjective, entity_name
+
     def clone(self):
         """Create copy of the current mold."""
         return Mold(self._health_point, self._attack_point, self._enemy_style, self._probability)
