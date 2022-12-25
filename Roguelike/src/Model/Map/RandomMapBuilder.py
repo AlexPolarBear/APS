@@ -80,3 +80,7 @@ class RandomMapBuilder(MapBuilder):
             self._coordinates_to_enemies[(cell_x, cell_y)] = ConfusedEnemy(enemy)
             self._map[cell_x][cell_y] = GridCell.ENEMY
         return self._coordinates_to_enemies
+
+    def generate_mold_prototype(self):
+        self._mold_prototype = self._enemy_factory.create_mold()
+        return self._mold_prototype

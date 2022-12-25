@@ -12,3 +12,7 @@ class MapBuilder(object):
     def generate_enemies(self):
         """Arrange enemies on the map."""
         raise NotImplementedError
+
+    def generate_mold_prototype(self):
+        """Create mold prototype"""
+        raise NotImplementedError

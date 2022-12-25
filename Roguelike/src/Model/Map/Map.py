@@ -38,6 +38,7 @@ class GridCell(Enum):
     NEUTRAL_ENEMY = 6     #only for printing
     COWARD_ENEMY = 7      #only for printing
     CONFUSED_ENEMY = 8    #only for printing
+    MOLD = 9              #only for printing
 
 
 ONE_STEP = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -157,6 +158,14 @@ class Map(object):
             (enemy_move_x, enemy_move_y) = enemy.next_move(enemy_position, self)
             
             if (enemy_move_x, enemy_move_y) == enemy_position:
+                if enemy.get_type() == GridCell.MOLD:
+                    for (dx, dy) in ONE_STEP:
+                        (new_enemy_x, new_enemy_y) = (dx + enemy_position[0], dy + enemy_position[1])
+                        if not self._check_in_bounds(new_enemy_x, new_enemy_y):
+                            continue
+                        if self._map[new_enemy_x][new_enemy_y] == GridCell.EMPTY and random.random() < enemy.probability:
+                            self._map[new_enemy_x][new_enemy_y] = GridCell.ENEMY
+                            self._coordinates_to_enemies[(new_enemy_x, new_enemy_y)] = enemy.clone()
                 continue
 
             if self._map[enemy_move_x][enemy_move_y] == GridCell.EMPTY:
@@ -190,6 +199,7 @@ class Map(object):
         map_builder.generate_walls()
         self._map[self._start_position[0]][self._start_position[1]] = GridCell.USER_POSITION
         self._coordinates_to_items = map_builder.generate_items()
+        self._mold_prototype = map_builder.generate_mold_prototype()
         self._coordinates_to_enemies = map_builder.generate_enemies()
 
     def _print_map(self) -> None:
@@ -214,4 +224,6 @@ class Map(object):
                         print('c', end=' ')
                     elif enemy.get_type() == GridCell.CONFUSED_ENEMY:
                         print('*', end=' ')
+                    elif enemy.get_type() == GridCell.MOLD:
+                        print('p', end=' ')
             print()

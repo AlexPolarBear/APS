@@ -40,7 +40,11 @@ class ConfusedEnemy(Enemy):
     def name(self) -> str:
         # return f'{self._enemy_adjective} {" ".join(self._enemy.name.split(" ")[1:])}'
         return self._enemy.name
-    
+
+    @property
+    def probability(self) -> float:
+        return self._enemy.probability
+
     def next_move(self, current_position: (int, int), map) -> (int, int):
         return self._enemy.next_move(current_position, map)
     
@@ -50,3 +54,6 @@ class ConfusedEnemy(Enemy):
             return GridCell.CONFUSED_ENEMY
         else:
             return self._enemy.get_type()
+
+    def clone(self):
+        return self._enemy.clone()
