@@ -2,7 +2,7 @@ from typing import Tuple, Dict, Any
 
 from src.GameClient.Controller import Controller
 from src.GameClient.UI import MapUI
-from src.Model.Map import Direction
+from src.Model.Map.Map import Direction
 from src.dataclasses import Button
 
 """Maps user inputs to model API calls."""

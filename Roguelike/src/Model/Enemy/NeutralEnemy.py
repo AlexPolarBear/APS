@@ -26,7 +26,7 @@ class NeutralEnemy(Enemy):
         return current_position
 
     def get_type(self):
-        from src.Model.Map import GridCell
+        from src.Model.Map.Map import GridCell
         return GridCell.NEUTRAL_ENEMY
 
     def _get_enemy_name(self, enemy_style: EnemyStyle) -> (str, str):

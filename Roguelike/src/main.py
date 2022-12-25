@@ -1,5 +1,5 @@
 from src import Model, GameClient
-from src.Model.Map import Direction
+from src.Model.Map.Map import Direction
 import argparse
 
 

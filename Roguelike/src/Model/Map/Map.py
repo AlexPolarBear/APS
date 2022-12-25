@@ -3,7 +3,7 @@ from enum import Enum
 import random
 from typing import Deque, List, Optional, Dict
 
-from src.Model.EnemyFactory import EnemyFactory
+from src.Model.Enemy.EnemyFactory import EnemyFactory
 from src.Model.UserHero import UserHero, CharacterStatus
 from src.Model.Item import Item
 from src.Model.Enemy.Enemy import Enemy
@@ -11,6 +11,8 @@ from src.Model.Enemy.AggressiveEnemy import AggressiveEnemy
 from src.Model.Enemy.NeutralEnemy import NeutralEnemy
 from src.Model.Enemy.CowardEnemy import CowardEnemy
 from src.Model.Enemy.ConfusedEnemy import ConfusedEnemy
+from src.Model.Map.RandomMapBuilder import RandomMapBuilder
+from src.Model.Map.FileMapBuilder import FileMapBuilder
 
 
 class Direction(Enum):
@@ -45,7 +47,7 @@ class Map(object):
 
 ##########public##########
 
-    def __init__(self, width, height, max_item_health_point):
+    def __init__(self, width, height, max_item_health_point, file_path):
         self._width = width
         self._height = height
         self._user_position = (0, 0)
@@ -55,7 +57,7 @@ class Map(object):
 
         self._max_item_health_point = max_item_health_point
 
-        self._generate_map()
+        self._generate_map(file_path)
 
     @property
     def width(self) -> int:
@@ -100,6 +102,28 @@ class Map(object):
             'attack': str(enemy.attack),
         }
 
+    def calculate_distance(self, start_position):
+        for i in range(self._height):
+            for j in range(self._width):
+                self._distance_from_user[i][j] = -1
+
+        if self._map[start_position[0]][start_position[1]] == GridCell.WALL:
+            return
+
+        queue: Deque[(int, int)] = deque()
+        queue.append(start_position)
+        self._distance_from_user[start_position[0]][start_position[1]] = 0
+
+        while len(queue) > 0:
+            position = queue.popleft()
+
+            for (dx, dy) in ONE_STEP:
+                (new_row, new_col) = (position[0] + dx, position[1] + dy)
+                if self._check_in_bounds(new_row, new_col) and self._map[new_row][new_col] != GridCell.WALL \
+                        and self._distance_from_user[new_row][new_col] == -1:
+                    self._distance_from_user[new_row][new_col] = self._distance_from_user[position[0]][position[1]] + 1
+                    queue.append((new_row, new_col))
+
     def move(self, direction: Direction, user_hero: UserHero) -> None:
         new_row, new_col = self._user_position[0] + ONE_STEP[direction.value][0], \
                            self._user_position[1] + ONE_STEP[direction.value][1]
@@ -126,7 +150,7 @@ class Map(object):
                 self._coordinates_to_enemies.pop((new_row, new_col))
                 self._map[new_row][new_col] = GridCell.EMPTY
         
-        self._calculate_distance(self._user_position)
+        self.calculate_distance(self._user_position)
 
         old_positions = list(self._coordinates_to_enemies.items())
         for (enemy_position, enemy) in old_positions:
@@ -151,94 +175,22 @@ class Map(object):
     def _check_in_bounds(self, row: int, col: int) -> bool:
         return (0 <= row < self._height) and (0 <= col < self._width)
 
-    def _calculate_distance(self, start_position):
-        for i in range(self._height):
-            for j in range(self._width):
-                self._distance_from_user[i][j] = -1
-        
-        if self._map[start_position[0]][start_position[1]] == GridCell.WALL:
-            return
-
-        queue: Deque[(int, int)] = deque()
-        queue.append(start_position)
-        self._distance_from_user[start_position[0]][start_position[1]] = 0
-
-        while len(queue) > 0:
-            position = queue.popleft()
-
-            for (dx, dy) in ONE_STEP:
-                (new_row, new_col) = (position[0] + dx, position[1] + dy)
-                if self._check_in_bounds(new_row, new_col) and self._map[new_row][new_col] != GridCell.WALL \
-                        and self._distance_from_user[new_row][new_col] == -1:
-                    self._distance_from_user[new_row][new_col] = self._distance_from_user[position[0]][position[1]] + 1
-                    queue.append((new_row, new_col))
-
-    def _find_path(self) -> bool:
-        if self._map[self._start_position[0]][self._start_position[1]] == GridCell.WALL:
-            return False
-        self._calculate_distance(self._start_position)
-        return self._distance_from_user[self._finish_position[0]][self._finish_position[1]] != -1
-
-    def _generate_walls(self):
-        WALLS_NUMBER = self._width * self._height // 2
-        empty_cells = []
-        for i in range(self._height):
-            for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY:
-                    empty_cells.append((i, j))
-
-        for _ in range(WALLS_NUMBER):
-            rnd = random.choice(empty_cells)
-            self._map[rnd[0]][rnd[1]] = GridCell.WALL
-            if self._find_path():
-                empty_cells.remove(rnd)
-            else:
-                self._map[rnd[0]][rnd[1]] = GridCell.EMPTY
-
-    def _generate_items(self):
-        ITEMS_NUMBER = 10
-        empty_cells = []
-        for i in range(self._height):
-            for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY:
-                    empty_cells.append((i, j))
-
-        self._coordinates_to_items = dict()
-        cells_with_items = random.sample(empty_cells, min(len(empty_cells), ITEMS_NUMBER))
-        for cell in cells_with_items:
-            health_point = random.randint(1, self._max_item_health_point)
-            self._coordinates_to_items[cell] = Item(health_point)
-    
-    def _generate_enemies(self):
-        ENEMIES_NUMBER = 15
-        empty_cells = []
-        for i in range(self._height):
-            for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY and (i, j) not in self._coordinates_to_items:
-                    empty_cells.append((i, j))
-        
-        self._coordinates_to_enemies = dict()
-        cells_with_enemies = random.sample(empty_cells, min(len(empty_cells), ENEMIES_NUMBER))
-
-        enemy_factory = EnemyFactory()
-
-        for (cell_x, cell_y) in cells_with_enemies:
-            enemy = enemy_factory.create_random_enemy()
-            
-            self._coordinates_to_enemies[(cell_x, cell_y)] = ConfusedEnemy(enemy)
-            self._map[cell_x][cell_y] = GridCell.ENEMY
-
-    def _generate_map(self) -> None:
+    def _generate_map(self, file_path) -> None:
         self._map: List[List[GridCell]] = []
         self._distance_from_user: List[List[int]] = []
         for i in range(self._height):
             self._map.append([GridCell.EMPTY] * self._width)
             self._distance_from_user.append([-1] * self._width)
 
-        self._generate_walls()
+        if file_path == '':
+            map_builder = RandomMapBuilder(self._map, self._height, self._width, self._max_item_health_point, EnemyFactory(), self)
+        else:
+            map_builder = FileMapBuilder(self._map, self._height, self._width, self._max_item_health_point, EnemyFactory(), file_path)
+
+        map_builder.generate_walls()
         self._map[self._start_position[0]][self._start_position[1]] = GridCell.USER_POSITION
-        self._generate_items()
-        self._generate_enemies()
+        self._coordinates_to_items = map_builder.generate_items()
+        self._coordinates_to_enemies = map_builder.generate_enemies()
 
     def _print_map(self) -> None:
         for i in range(self._height):
