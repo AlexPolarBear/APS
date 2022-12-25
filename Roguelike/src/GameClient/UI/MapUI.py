@@ -57,6 +57,8 @@ class MapUI(UI):
                     print('0', end=' ')
                 elif cell == GridCell.AGGRESSIVE_ENEMY:
                     print('a', end=' ')
+                elif cell == GridCell.MOLD:
+                    print('m', end=' ')
                 elif cell == GridCell.NEUTRAL_ENEMY:
                     print('n', end=' ')
                 elif cell == GridCell.COWARD_ENEMY:
