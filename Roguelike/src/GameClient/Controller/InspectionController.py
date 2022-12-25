@@ -13,7 +13,7 @@ def _get_enemies_number(world_map: List[List[GridCell]]) -> int:
         for cell in row:
             if cell in {
                 GridCell.AGGRESSIVE_ENEMY, GridCell.NEUTRAL_ENEMY, GridCell.COWARD_ENEMY,
-                GridCell.CONFUSED_ENEMY, GridCell.ENEMY
+                GridCell.CONFUSED_ENEMY, GridCell.ENEMY, GridCell.MOLD
             }:
                 enemies_n += 1
     return enemies_n
