@@ -4,6 +4,7 @@ from typing import List
 from src.Model.Enemy import CowardEnemy
 from src.Model.Enemy.Enemy import Enemy, EnemyStyle
 from src.Model.UserHero import CharacterStatus
+from src.Model.Enemy.Mold import Mold
 
 CRITICAL_LEVEL = 5
 
@@ -33,11 +34,12 @@ class EnemyContext(object):
 
     @health.setter
     def health(self, value: int):
-        if self.health >= CRITICAL_LEVEL and value < CRITICAL_LEVEL:
-            self._original_state = self._enemy
-            self._enemy = CowardEnemy(self._enemy.health, self._enemy.attack, self._enemy.style)
-        elif self.health < CRITICAL_LEVEL and value >= CRITICAL_LEVEL:
-            self._enemy = self._original_state
+        if not isinstance(self._enemy, Mold):
+            if self.health >= CRITICAL_LEVEL and value < CRITICAL_LEVEL:
+                self._original_state = self._enemy
+                self._enemy = CowardEnemy(self._enemy.health, self._enemy.attack, self._enemy.style)
+            elif self.health < CRITICAL_LEVEL and value >= CRITICAL_LEVEL:
+                self._enemy = self._original_state
 
         self._enemy.health = value
         self._original_state.health = value
@@ -60,11 +62,12 @@ class EnemyContext(object):
         return self._enemy.clone()
     
     def defence(self, attack: int):
-        if self.health >= CRITICAL_LEVEL and self.health - attack < CRITICAL_LEVEL:
-            self._original_state = self._enemy
-            self._enemy = CowardEnemy(self._enemy.health, self._enemy.attack, self._enemy.style)
-        elif self.health < CRITICAL_LEVEL and self.health - attack >= CRITICAL_LEVEL:
-            self._enemy = self._original_state
+        if not isinstance(self._enemy, Mold):
+            if self.health >= CRITICAL_LEVEL and self.health - attack < CRITICAL_LEVEL:
+                self._original_state = self._enemy
+                self._enemy = CowardEnemy(self._enemy.health, self._enemy.attack, self._enemy.style)
+            elif self.health < CRITICAL_LEVEL and self.health - attack >= CRITICAL_LEVEL:
+                self._enemy = self._original_state
 
         self._enemy.defence(attack)
         if self._enemy is not self._original_state:
