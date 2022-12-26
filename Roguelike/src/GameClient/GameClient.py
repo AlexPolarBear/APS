@@ -1,6 +1,6 @@
 from src import Model
 from src.GameClient.Controller.MapController import MapController
-from src.GameClient.KeyboardHandler import KeyboardHandler
+from src.GameClient.InputProvider import InputProvider
 
 
 class GameClient(object):
@@ -15,20 +15,17 @@ class GameClient(object):
 
     Attributes
     ----------
-    model : Model
+    _model : Model
         Model instance which contains all the game data and logic.
-    controller : Controller
+    _controller : Controller
         Starting controller which takes control of the game. Initially it is MapController.
-    keyboard_handler : KeyboardHandler
+    _keyboard_handler : KeyboardHandler
         Handler reads user input and converts it to Button instances.
     """
-    def __init__(self, model: Model):
+    def __init__(self, model: Model, input_provider: InputProvider):
         self._model = model
         self._controller = MapController(model)
-        self._keyboard_handler = KeyboardHandler(
-            keys_to_track={'w', 'a', 's', 'd', 'up', 'left', 'down', 'right', 'tab', 'space', 'shift'},
-            key_mapping={'w': 'up', 'a': 'left', 's': 'down', 'd': 'right'},
-        )
+        self._keyboard_handler = input_provider
 
         self._controller.ui.print(self._model, erase_before=False)
 

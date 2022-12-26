@@ -62,4 +62,7 @@ class BackpackController(Controller):
                 self.selected_item_index += 1
             self.selected_item_index %= len(self.backpack)
 
+        elif button.key == 'esc':
+            raise SystemExit
+
         return self, dict(selected_item_index=self.selected_item_index)

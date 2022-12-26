@@ -69,4 +69,7 @@ class InspectionController(Controller):
                 self.selected_enemy_index += 1
             self.selected_enemy_index %= self._enemy_n
 
+        elif button.key == 'esc':
+            raise SystemExit
+
         return self, dict(selected_enemy_index=self.selected_enemy_index)

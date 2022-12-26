@@ -57,6 +57,9 @@ class MapController(Controller):
             command = self._choose_move_command(button)
             command.execute()
 
+        elif button.key == 'esc':
+            raise SystemExit
+
         return self, dict()
 
     def _choose_move_command(self, button: Button) -> Command:
