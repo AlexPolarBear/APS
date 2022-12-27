@@ -3,7 +3,7 @@ from typing import Tuple, Dict, Any, List
 from src.Model import Model, Backpack
 from src.GameClient.Controller import Controller
 from src.GameClient.UI import BackpackUI, InspectionUI
-from src.Model.Map.Map import GridCell
+from src.Model.Map.MapController import GridCell
 from src.dataclasses import Button
 
 

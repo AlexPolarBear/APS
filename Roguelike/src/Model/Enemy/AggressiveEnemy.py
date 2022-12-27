@@ -22,7 +22,7 @@ class AggressiveEnemy(Enemy):
         super().__init__(health_point, attack_point, enemy_style)
     
     def next_move(self, current_position: (int, int), game_map) -> (int, int):
-        from src.Model.Map.Map import ONE_STEP
+        from src.Model.Map.MapController import ONE_STEP
         next_step = current_position
         min_dist: int = -1
         for (dx, dy) in ONE_STEP:
@@ -38,7 +38,7 @@ class AggressiveEnemy(Enemy):
         return next_step
 
     def get_type(self):
-        from src.Model.Map.Map import GridCell
+        from src.Model.Map.MapController import GridCell
         return GridCell.AGGRESSIVE_ENEMY
 
     def _get_enemy_name(self, enemy_style: EnemyStyle) -> (str, str):

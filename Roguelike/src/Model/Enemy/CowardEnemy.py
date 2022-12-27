@@ -23,7 +23,7 @@ class CowardEnemy(Enemy):
         super().__init__(health_point, attack_point, enemy_style)
 
     def next_move(self, current_position: (int, int), map) -> (int, int):
-        from src.Model.Map.Map import ONE_STEP
+        from src.Model.Map.MapController import ONE_STEP
         next_step = current_position
         max_dist: int = 0
         for (dx, dy) in ONE_STEP:
@@ -36,7 +36,7 @@ class CowardEnemy(Enemy):
         return next_step
     
     def get_type(self):
-        from src.Model.Map.Map import GridCell
+        from src.Model.Map.MapController import GridCell
         return GridCell.COWARD_ENEMY
 
     def _get_enemy_name(self, enemy_style: EnemyStyle) -> (str, str):

@@ -1,11 +1,11 @@
-from .Map import Map
+from .MapController import MapController
 from .MapBuilder import MapBuilder
 from .RandomMapBuilder import RandomMapBuilder
 from .FileMapBuilder import FileMapBuilder
 
 
 __all__ = [
-    'Map',
+    'MapController',
     'MapBuilder',
     'RandomMapBuilder',
     'FileMapBuilder',

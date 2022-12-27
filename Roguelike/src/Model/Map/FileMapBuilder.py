@@ -18,8 +18,8 @@ class FileMapBuilder(MapBuilder):
         self._start_position = (0, 0)
         self._finish_position = (height - 1, width - 1)
 
-    def generate_walls(self):
-        from src.Model.Map.Map import GridCell
+    def _generate_walls(self):
+        from src.Model.Map.MapController import GridCell
 
         with open(self._file_path, 'r') as file:
             lines = file.readlines()
@@ -31,8 +31,8 @@ class FileMapBuilder(MapBuilder):
                         self._map[i][j] = GridCell.WALL
 
 
-    def generate_items(self):
-        from src.Model.Map.Map import GridCell
+    def _generate_items(self):
+        from src.Model.Map.MapController import GridCell
 
         ITEMS_NUMBER = 10
         empty_cells = []
@@ -48,8 +48,8 @@ class FileMapBuilder(MapBuilder):
             self._coordinates_to_items[cell] = Item(health_point)
         return self._coordinates_to_items
 
-    def generate_enemies(self):
-        from src.Model.Map.Map import GridCell
+    def _generate_enemies(self):
+        from src.Model.Map.MapController import GridCell
 
         ENEMIES_NUMBER = 15
         empty_cells = []
@@ -68,6 +68,6 @@ class FileMapBuilder(MapBuilder):
             self._map[cell_x][cell_y] = GridCell.ENEMY
         return self._coordinates_to_enemies
 
-    def generate_mold_prototype(self):
+    def _generate_mold_prototype(self):
         self._mold_prototype = self._enemy_factory.create_mold()
         return self._mold_prototype

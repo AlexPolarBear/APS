@@ -8,7 +8,7 @@ class Mold(NeutralEnemy):
         self._probability = probability
 
     def get_type(self):
-        from src.Model.Map.Map import GridCell
+        from src.Model.Map.MapController import GridCell
         return GridCell.MOLD
 
     @property

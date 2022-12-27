@@ -1,6 +1,6 @@
 from src import Model
 from src.GameClient.Command import MoveRightCommand
-from src.Model.Map.Map import Direction
+from src.Model.Map.MapController import Direction
 
 
 class ModelMoveRightMock(Model):

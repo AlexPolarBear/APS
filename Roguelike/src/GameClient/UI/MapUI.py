@@ -1,7 +1,7 @@
 from src import Model
 from src.GameClient.UI import UI
 
-from src.Model.Map.Map import GridCell
+from src.Model.Map.MapController import GridCell
 
 
 class MapUI(UI):

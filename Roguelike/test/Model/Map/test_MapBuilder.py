@@ -1,6 +1,9 @@
-from src.Model.Map.Map import GridCell
-from src.Model.Map.FileMapBuilder import FileMapBuilder
+from typing import List
+
 from src.Model.Enemy.EnemyFactory import EnemyFactory
+from src.Model.Map.FileMapBuilder import FileMapBuilder
+from src.Model.Map.MapController import GridCell
+
 
 def test_MapBuilder1():
     height = 10
@@ -12,7 +15,7 @@ def test_MapBuilder1():
         world_map.append([GridCell.EMPTY] * width)
 
     map_builder = FileMapBuilder(world_map, height, width, max_item_health_point, EnemyFactory(), './test_map.txt')
-    map_builder.generate_walls()
+    map_builder._generate_walls()
 
     example = [
         '......###.#...#.#.#.###.#.#...',

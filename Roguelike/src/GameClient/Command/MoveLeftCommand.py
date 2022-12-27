@@ -1,5 +1,5 @@
 from src.GameClient.Command import Command
-from src.Model.Map.Map import Direction
+from src.Model.Map.MapController import Direction
 
 
 class MoveLeftCommand(Command):

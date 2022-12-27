@@ -49,7 +49,7 @@ class ConfusedEnemy(Enemy):
         return self._enemy.next_move(current_position, map)
     
     def get_type(self):
-        from src.Model.Map.Map import GridCell
+        from src.Model.Map.MapController import GridCell
         if self._confusion_time > 0:
             return GridCell.CONFUSED_ENEMY
         else:
