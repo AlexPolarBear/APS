@@ -1,24 +1,23 @@
-from src.Model.Map.MapBuilder import MapBuilder
-from src.Model.Item import Item
-from src.Model.Enemy.ConfusedEnemy import ConfusedEnemy
 import random
+
 from src.Model.Enemy.EnemyContext import EnemyContext
+from src.Model.Item import Item
+from src.Model.Map.Map import Map
+from src.Model.Map.MapBuilder import MapBuilder
+
 
 class FileMapBuilder(MapBuilder):
     """Class for building the world map from file."""
 
-    def __init__(self, world_map, height, width, max_item_health_point, enemy_factory, file_path):
-        self._map = world_map
-        self._height = height
-        self._width = width
-        self._max_item_health_point = max_item_health_point
-        self._enemy_factory = enemy_factory
-        self._file_path = file_path
+    def __init__(self):
+        super().__init__()
+        self._file_path = None
 
-        self._start_position = (0, 0)
-        self._finish_position = (height - 1, width - 1)
+    def set_file_path(self, value: str) -> 'FileMapBuilder':
+        self._file_path = value
+        return self
 
-    def _generate_walls(self):
+    def _generate_walls(self, map_: Map):
         from src.Model.Map.MapController import GridCell
 
         with open(self._file_path, 'r') as file:
@@ -26,19 +25,18 @@ class FileMapBuilder(MapBuilder):
             for i in range(self._height):
                 for j in range(self._width):
                     if lines[i][j] == '.':
-                        self._map[i][j] = GridCell.EMPTY
+                        map_.map[i][j] = GridCell.EMPTY
                     else:
-                        self._map[i][j] = GridCell.WALL
+                        map_.map[i][j] = GridCell.WALL
 
-
-    def _generate_items(self):
+    def _generate_items(self, map_: Map):
         from src.Model.Map.MapController import GridCell
 
         ITEMS_NUMBER = 10
         empty_cells = []
         for i in range(self._height):
             for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY:
+                if map_.map[i][j] == GridCell.EMPTY:
                     empty_cells.append((i, j))
 
         self._coordinates_to_items = dict()
@@ -48,14 +46,14 @@ class FileMapBuilder(MapBuilder):
             self._coordinates_to_items[cell] = Item(health_point)
         return self._coordinates_to_items
 
-    def _generate_enemies(self):
+    def _generate_enemies(self, map_: Map):
         from src.Model.Map.MapController import GridCell
 
         ENEMIES_NUMBER = 15
         empty_cells = []
         for i in range(self._height):
             for j in range(self._width):
-                if self._map[i][j] == GridCell.EMPTY and (i, j) not in self._coordinates_to_items:
+                if map_.map[i][j] == GridCell.EMPTY and (i, j) not in self._coordinates_to_items:
                     empty_cells.append((i, j))
 
         self._coordinates_to_enemies = dict()
@@ -65,9 +63,5 @@ class FileMapBuilder(MapBuilder):
             enemy = self._enemy_factory.create_random_enemy()
 
             self._coordinates_to_enemies[(cell_x, cell_y)] = EnemyContext(enemy)
-            self._map[cell_x][cell_y] = GridCell.ENEMY
+            map_.map[cell_x][cell_y] = GridCell.ENEMY
         return self._coordinates_to_enemies
-
-    def _generate_mold_prototype(self):
-        self._mold_prototype = self._enemy_factory.create_mold()
-        return self._mold_prototype

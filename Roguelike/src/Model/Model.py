@@ -1,8 +1,8 @@
+from src.Model.Backpack import Backpack
+from src.Model.Enemy.EnemyFactory import EnemyFactory
 from src.Model.Map import RandomMapBuilder, FileMapBuilder
 from src.Model.Map.MapController import Direction, MapController, Status
-from src.Model.Backpack import Backpack
 from src.Model.UserHero import UserHero
-
 
 START_HERO_HEALTH = 10
 START_HERO_ATTACK = 1
@@ -16,27 +16,45 @@ class Model(object):
     Class representing the game world. It contains information about user's hero, map, enemies, items and so on. 
     """
 
-##########public##########
+    ##########public##########
 
     def __init__(self):
         """Create new level."""
-        self._map = RandomMapBuilder(world_map, MAP_HEIGHT, MAP_WIDTH, MAX_ITEM_HEALTH_POINT, EnemyFactory()).generate_map()  # TODO
-        self._map_controller = MapController(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT, '')
+        self._map = RandomMapBuilder() \
+            .set_width(MAP_WIDTH) \
+            .set_height(MAP_HEIGHT) \
+            .set_max_item_health_point(MAX_ITEM_HEALTH_POINT) \
+            .set_enemy_factory(EnemyFactory()) \
+            .generate_map()
+        self._map_controller = MapController(self._map)
         self._user_hero = UserHero(START_HERO_HEALTH, START_HERO_ATTACK)
 
     @classmethod
     def from_save(cls, save_path: str) -> 'Model':
         model = cls()
-        self._map = FileMapBuilder(world_map, MAP_HEIGHT, MAP_WIDTH, MAX_ITEM_HEALTH_POINT, EnemyFactory(), save_path).generate_map()  # TODO
-        model._map_controller = MapController(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT, save_path)
+        model._map = FileMapBuilder() \
+            .set_file_path(save_path) \
+            .set_max_item_health_point(MAX_ITEM_HEALTH_POINT) \
+            .set_enemy_factory(EnemyFactory()) \
+            .generate_map()
+        model._map_controller = MapController(model._map)
         model._user_hero = UserHero(START_HERO_HEALTH, START_HERO_ATTACK)
         return model
 
     def move(self, direction: Direction):
-        """Move the user's hero to the appropriate direction. If the user finishes the current level, then generate new level."""
+        """
+        Move the user's hero to the appropriate direction.
+        If the user finishes the current level, then generate new level.
+        """
         self._map_controller.move(direction, self._user_hero)
         if self._map_controller.status == Status.FINISH or self._map_controller.status == Status.DEATH:
-            self._map_controller = MapController(MAP_WIDTH, MAP_HEIGHT, MAX_ITEM_HEALTH_POINT, '')
+            new_map = RandomMapBuilder() \
+                .set_width(MAP_WIDTH) \
+                .set_height(MAP_HEIGHT) \
+                .set_max_item_health_point(MAX_ITEM_HEALTH_POINT) \
+                .set_enemy_factory(EnemyFactory()) \
+                .generate_map()
+            self._map_controller = MapController(new_map)
             self._user_hero = UserHero(START_HERO_HEALTH, START_HERO_ATTACK)
 
     @property
@@ -48,7 +66,7 @@ class Model(object):
     def backpack(self) -> Backpack:
         """Return the user's backpack."""
         return self._user_hero.backpack
-    
+
     @property
     def user_hero(self) -> UserHero:
         """Return the user's hero."""
