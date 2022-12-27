@@ -15,6 +15,13 @@ class FileMapBuilder(MapBuilder):
 
     def set_file_path(self, value: str) -> 'FileMapBuilder':
         self._file_path = value
+
+        with open(self._file_path, 'r') as file:
+            lines = file.readlines()
+            self._height = len(lines)
+            self._width = len(lines[0]) - 1
+            self._finish_position = (self._height - 1, self._width - 1)
+
         return self
 
     def _generate_walls(self, map_: Map):

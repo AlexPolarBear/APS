@@ -1,8 +1,7 @@
-from .MapController import MapController
-from .MapBuilder import MapBuilder
-from .RandomMapBuilder import RandomMapBuilder
 from .FileMapBuilder import FileMapBuilder
-
+from .MapBuilder import MapBuilder
+from .MapController import MapController
+from .RandomMapBuilder import RandomMapBuilder
 
 __all__ = [
     'MapController',

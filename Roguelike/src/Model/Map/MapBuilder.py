@@ -20,10 +20,10 @@ class MapBuilder(object):
     def generate_map(self) -> Optional[Map]:
         """Generate the map data."""
         if (
-            self._height is None
-            or self._width is None
-            or self._max_item_health_point is None
-            or self._enemy_factory is None
+                self._height is None
+                or self._width is None
+                or self._max_item_health_point is None
+                or self._enemy_factory is None
         ):
             return None
 

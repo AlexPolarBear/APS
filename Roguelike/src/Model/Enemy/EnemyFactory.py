@@ -2,7 +2,6 @@ import random
 
 from src.Model.Enemy import Enemy, AggressiveEnemy, NeutralEnemy, CowardEnemy, EnemyStyle, Mold
 
-
 MAX_ENEMY_HEALTH = 10
 MAX_ENEMY_ATTACK = 2
 MOLD_PROBABILITY = 0.05
@@ -40,4 +39,4 @@ class EnemyFactory(object):
 
     def create_mold(self):
         return Mold(random.randrange(MAX_ENEMY_HEALTH) + 1, random.randrange(MAX_ENEMY_ATTACK) + 1,
-            EnemyStyle.SCIFI, MOLD_PROBABILITY)
+                    EnemyStyle.SCIFI, MOLD_PROBABILITY)
